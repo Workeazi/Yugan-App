@@ -22,6 +22,7 @@ class SubcategoryModel {
   final int id;
   final String name;
   final String slug;
+  final String? image;
 
   final List<LeafModel> children;
 
@@ -29,6 +30,7 @@ class SubcategoryModel {
     required this.id,
     required this.name,
     required this.slug,
+    this.image,
     this.children = const [],
   });
 
@@ -66,6 +68,7 @@ class SubcategoryModel {
       id: _i(json['id']),
       name: _s(json['name']),
       slug: _s(json['slug']),
+      image: json['image']?.toString(),
       children: leaves,
     );
   }

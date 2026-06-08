@@ -191,7 +191,16 @@ class _HomeViewState extends State<HomeView> {
                           transitionBuilder: (Widget child, Animation<double> animation) {
                             return FadeTransition(
                               opacity: animation,
-                              child: child, // Just a simple fade for the entire page body
+                              child: SlideTransition(
+                                position: Tween<Offset>(
+                                  begin: const Offset(0.05, 0.0), // Slight horizontal slide to feel like navigating categories
+                                  end: Offset.zero,
+                                ).animate(CurvedAnimation(
+                                  parent: animation,
+                                  curve: Curves.easeOutCubic,
+                                )),
+                                child: child,
+                              ),
                             );
                           },
                           child: Column(
@@ -206,15 +215,15 @@ class _HomeViewState extends State<HomeView> {
                                 categoryName: controller.currentCategory.label,
                                 primaryColor: controller.currentCategory.primaryColor,
                               ),
-                              OffersWidget(
-                                categoryName: controller.currentCategory.label,
-                                primaryColor: controller.currentCategory.primaryColor,
-                              ),
                               TrendingWidget(
                                 categoryName: controller.currentCategory.label,
                                 primaryColor: controller.currentCategory.primaryColor,
                               ),
                               RecommendedWidget(
+                                categoryName: controller.currentCategory.label,
+                                primaryColor: controller.currentCategory.primaryColor,
+                              ),
+                              OffersWidget(
                                 categoryName: controller.currentCategory.label,
                                 primaryColor: controller.currentCategory.primaryColor,
                               ),

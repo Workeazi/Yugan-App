@@ -1,19 +1,23 @@
-import 'package:cached_network_image/cached_network_image.dart';
 import 'package:flutter/material.dart';
 import 'package:get/get.dart';
 import '../../../core/routes/app_routes.dart';
 import '../../../core/routes/mock_pdp_route.dart';
+import '../../../core/widgets/safe_image.dart';
 import '../../product/view/mock_product_details_view.dart';
 import '../models/product_model.dart';
 
 class ProductCardWidget extends StatefulWidget {
   final ProductModel product;
   final Color primaryColor;
+  final List<ProductModel>? products;
+  final int? index;
 
   const ProductCardWidget({
     super.key,
     required this.product,
     required this.primaryColor,
+    this.products,
+    this.index,
   });
 
   @override
@@ -35,7 +39,10 @@ class _ProductCardWidgetState extends State<ProductCardWidget> {
         Future.delayed(const Duration(milliseconds: 50), () {
           Navigator.push(
             context,
-            MockPdpRoute(page: MockProductDetailsView(product: product)),
+            MockPdpRoute(page: MockProductDetailsView(
+              products: widget.products ?? [product],
+              initialIndex: widget.index ?? 0,
+            )),
           );
         });
       },
@@ -74,17 +81,9 @@ class _ProductCardWidgetState extends State<ProductCardWidget> {
                       color: Colors.white,
                       child: Hero(
                         tag: 'hero_image_${product.name}',
-                        child: CachedNetworkImage(
+                        child: SafeImage(
                           imageUrl: product.image,
                           fit: BoxFit.cover,
-                          placeholder: (context, url) => Center(
-                            child: CircularProgressIndicator(color: primaryColor),
-                          ),
-                          errorWidget: (context, url, error) => Icon(
-                            Icons.image,
-                            color: primaryColor.withValues(alpha: 0.5),
-                            size: 40,
-                          ),
                         ),
                       ),
                     ),

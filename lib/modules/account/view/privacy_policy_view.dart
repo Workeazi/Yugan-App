@@ -83,7 +83,7 @@ class PrivacyPolicyView extends StatelessWidget {
                 const SizedBox(height: 16),
                 const _SectionHeading('1. Introduction'),
                 Text(
-                  'Kartly ("we", "us" or "our") operates an e‑commerce platform that allows users to browse and purchase goods and services. This Privacy Policy describes how we collect, use, share and protect personal information when you use the Kartly mobile application and any related services. By using our app, you agree to the collection and use of information in accordance with this policy.',
+                  'YUGAN ("we", "us" or "our") operates an e‑commerce platform that allows users to browse and purchase goods and services. This Privacy Policy describes how we collect, use, share and protect personal information when you use the YUGAN mobile application and any related services. By using our app, you agree to the collection and use of information in accordance with this policy.',
                   style: theme.textTheme.bodyMedium,
                 ),
                 const _SectionHeading('2. Information We Collect'),
@@ -102,7 +102,7 @@ class PrivacyPolicyView extends StatelessWidget {
                 ]),
                 const _SectionHeading('3. How We Use Information'),
                 Text(
-                  'We use the collected information to operate, maintain and improve Kartly’s services. Specifically, we use your information to:',
+                  'We use the collected information to operate, maintain and improve YUGAN’s services. Specifically, we use your information to:',
                   style: theme.textTheme.bodyMedium,
                 ),
                 const _BulletList([
@@ -153,7 +153,7 @@ class PrivacyPolicyView extends StatelessWidget {
                 ),
                 const _SectionHeading('10. Third‑Party Services and Links'),
                 Text(
-                  'Kartly may contain links to third‑party websites or services that are not operated by us. We are not responsible for the content or privacy practices of these third parties. We encourage you to review the privacy policies of every third‑party service you visit or use.',
+                  'YUGAN may contain links to third‑party websites or services that are not operated by us. We are not responsible for the content or privacy practices of these third parties. We encourage you to review the privacy policies of every third‑party service you visit or use.',
                   style: theme.textTheme.bodyMedium,
                 ),
                 const _SectionHeading('11. Changes to This Privacy Policy'),
@@ -163,7 +163,7 @@ class PrivacyPolicyView extends StatelessWidget {
                 ),
                 const _SectionHeading('12. Contact Us'),
                 Text(
-                  'If you have any questions, concerns or requests regarding this Privacy Policy or our data practices, please contact us at:\n\nEmail: support@kartly.app\nAddress: Kartly, Dhaka, Bangladesh\n',
+                  'If you have any questions, concerns or requests regarding this Privacy Policy or our data practices, please contact us at:\n\nEmail: support@yugan.app\nAddress: YUGAN, Dhaka, Bangladesh\n',
                   style: theme.textTheme.bodyMedium,
                 ),
               ],

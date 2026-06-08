@@ -16,7 +16,10 @@ class CategoryModel {
     this.subcategories = const [],
   });
 
-  String get imageUrl => AppConfig.assetUrl(icon);
+  String get imageUrl {
+    if (icon.startsWith('assets/')) return icon;
+    return AppConfig.assetUrl(icon);
+  }
 
   static int _i(dynamic v) =>
       v is int ? v : int.tryParse(v?.toString() ?? '') ?? 0;

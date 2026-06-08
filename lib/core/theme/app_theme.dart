@@ -15,6 +15,12 @@ class AppTheme {
     }
   }
 
+  // Core Design System Constants
+  static const double cardRadius = 16.0;
+  static const double buttonRadius = 14.0;
+  static const double inputRadius = 12.0;
+  static const double bottomSheetRadius = 20.0;
+
   static ThemeData lightFor(Locale locale) {
     final family = _fontFor(locale);
     return ThemeData(
@@ -22,6 +28,8 @@ class AppTheme {
       brightness: Brightness.light,
       colorScheme: ColorScheme.fromSeed(
         primary: AppColors.primaryColor,
+        secondary: AppColors.secondaryColor,
+        tertiary: AppColors.accentColor,
         seedColor: AppColors.primaryColor,
         brightness: Brightness.light,
       ),
@@ -32,6 +40,7 @@ class AppTheme {
         scrolledUnderElevation: 0,
         surfaceTintColor: AppColors.transparentColor,
         shadowColor: AppColors.transparentColor,
+        centerTitle: true,
       ),
       bottomNavigationBarTheme: const BottomNavigationBarThemeData(
         backgroundColor: AppColors.lightBottomNavBarColor,
@@ -47,7 +56,39 @@ class AppTheme {
         style: ElevatedButton.styleFrom(
           backgroundColor: AppColors.primaryColor,
           foregroundColor: AppColors.whiteColor,
-          shape: RoundedRectangleBorder(borderRadius: BorderRadius.circular(8)),
+          shape: RoundedRectangleBorder(borderRadius: BorderRadius.circular(buttonRadius)),
+          elevation: 0,
+          padding: const EdgeInsets.symmetric(vertical: 16),
+          textStyle: const TextStyle(fontWeight: FontWeight.w600, fontSize: 16),
+        ),
+      ),
+      inputDecorationTheme: InputDecorationTheme(
+        filled: true,
+        fillColor: AppColors.whiteColor,
+        contentPadding: const EdgeInsets.symmetric(horizontal: 16, vertical: 14),
+        border: OutlineInputBorder(
+          borderRadius: BorderRadius.circular(inputRadius),
+          borderSide: BorderSide(color: Colors.grey.shade300),
+        ),
+        enabledBorder: OutlineInputBorder(
+          borderRadius: BorderRadius.circular(inputRadius),
+          borderSide: BorderSide(color: Colors.grey.shade300),
+        ),
+        focusedBorder: OutlineInputBorder(
+          borderRadius: BorderRadius.circular(inputRadius),
+          borderSide: const BorderSide(color: AppColors.primaryColor, width: 1.5),
+        ),
+      ),
+      cardTheme: CardThemeData(
+        color: AppColors.lightCardColor,
+        elevation: 2,
+        shadowColor: Colors.black.withValues(alpha: 0.05),
+        shape: RoundedRectangleBorder(borderRadius: BorderRadius.circular(cardRadius)),
+      ),
+      bottomSheetTheme: const BottomSheetThemeData(
+        backgroundColor: AppColors.whiteColor,
+        shape: RoundedRectangleBorder(
+          borderRadius: BorderRadius.vertical(top: Radius.circular(bottomSheetRadius)),
         ),
       ),
       fontFamily: family,
@@ -61,16 +102,19 @@ class AppTheme {
       brightness: Brightness.dark,
       colorScheme: ColorScheme.fromSeed(
         primary: AppColors.primaryColor,
+        secondary: AppColors.secondaryColor,
+        tertiary: AppColors.accentColor,
         seedColor: AppColors.primaryColor,
         brightness: Brightness.dark,
       ),
       scaffoldBackgroundColor: AppColors.darkBackgroundColor,
       appBarTheme: const AppBarTheme(
-        backgroundColor: AppColors.primaryColor,
+        backgroundColor: AppColors.darkBackgroundColor,
         foregroundColor: AppColors.whiteColor,
         scrolledUnderElevation: 0,
         surfaceTintColor: AppColors.transparentColor,
         shadowColor: AppColors.transparentColor,
+        centerTitle: true,
       ),
       bottomNavigationBarTheme: const BottomNavigationBarThemeData(
         backgroundColor: AppColors.darkBottomNavBarColor,
@@ -86,7 +130,39 @@ class AppTheme {
         style: ElevatedButton.styleFrom(
           backgroundColor: AppColors.primaryColor,
           foregroundColor: AppColors.whiteColor,
-          shape: RoundedRectangleBorder(borderRadius: BorderRadius.circular(8)),
+          shape: RoundedRectangleBorder(borderRadius: BorderRadius.circular(buttonRadius)),
+          elevation: 0,
+          padding: const EdgeInsets.symmetric(vertical: 16),
+          textStyle: const TextStyle(fontWeight: FontWeight.w600, fontSize: 16),
+        ),
+      ),
+      inputDecorationTheme: InputDecorationTheme(
+        filled: true,
+        fillColor: AppColors.darkCardColor,
+        contentPadding: const EdgeInsets.symmetric(horizontal: 16, vertical: 14),
+        border: OutlineInputBorder(
+          borderRadius: BorderRadius.circular(inputRadius),
+          borderSide: const BorderSide(color: Colors.transparent),
+        ),
+        enabledBorder: OutlineInputBorder(
+          borderRadius: BorderRadius.circular(inputRadius),
+          borderSide: const BorderSide(color: Colors.transparent),
+        ),
+        focusedBorder: OutlineInputBorder(
+          borderRadius: BorderRadius.circular(inputRadius),
+          borderSide: const BorderSide(color: AppColors.primaryColor, width: 1.5),
+        ),
+      ),
+      cardTheme: CardThemeData(
+        color: AppColors.darkCardColor,
+        elevation: 2,
+        shadowColor: Colors.black.withValues(alpha: 0.2),
+        shape: RoundedRectangleBorder(borderRadius: BorderRadius.circular(cardRadius)),
+      ),
+      bottomSheetTheme: const BottomSheetThemeData(
+        backgroundColor: AppColors.darkBackgroundColor,
+        shape: RoundedRectangleBorder(
+          borderRadius: BorderRadius.vertical(top: Radius.circular(bottomSheetRadius)),
         ),
       ),
       fontFamily: family,

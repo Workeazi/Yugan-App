@@ -64,7 +64,21 @@ class AppPages {
     ),
     GetPage(
       name: AppRoutes.mockProductDetailsView,
-      page: () => MockProductDetailsView(product: Get.arguments),
+      page: () {
+        final args = Get.arguments;
+        if (args is Map) {
+          return MockProductDetailsView(
+            products: args['products'] ?? [],
+            initialIndex: args['initialIndex'] ?? 0,
+          );
+        } else if (args != null) {
+          return MockProductDetailsView(
+            products: [args],
+            initialIndex: 0,
+          );
+        }
+        return const MockProductDetailsView(products: []);
+      },
     ),
     GetPage(
       name: AppRoutes.productFilterView,

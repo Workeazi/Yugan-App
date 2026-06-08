@@ -2,21 +2,59 @@ import 'package:flutter/material.dart';
 import 'package:get/get.dart';
 import 'package:carousel_slider/carousel_slider.dart';
 import 'package:smooth_page_indicator/smooth_page_indicator.dart';
-import 'package:cached_network_image/cached_network_image.dart';
 
 import '../../../core/constants/app_colors.dart';
+import '../../../core/widgets/safe_image.dart';
 import '../../home/models/product_model.dart';
 import '../controller/mock_product_details_controller.dart';
+import '../widgets/animated_add_button.dart';
 
-class MockProductDetailsView extends StatelessWidget {
-  final ProductModel product;
+class MockProductDetailsView extends StatefulWidget {
+  final List<ProductModel> products;
+  final int initialIndex;
 
-  MockProductDetailsView({super.key, required this.product}) {
-    Get.delete<MockProductDetailsController>();
-    Get.put(MockProductDetailsController(initialProduct: product));
+  const MockProductDetailsView({
+    super.key,
+    required this.products,
+    this.initialIndex = 0,
+  });
+
+  @override
+  State<MockProductDetailsView> createState() => _MockProductDetailsViewState();
+}
+
+class _MockProductDetailsViewState extends State<MockProductDetailsView> {
+  late PageController _pageController;
+  int _currentIndex = 0;
+
+  @override
+  void initState() {
+    super.initState();
+    _currentIndex = widget.initialIndex;
+    _pageController = PageController(initialPage: widget.initialIndex);
+    
+    // Pre-register all controllers so each page can always access its active one
+    for (var product in widget.products) {
+      if (!Get.isRegistered<MockProductDetailsController>(tag: product.name)) {
+        Get.put(MockProductDetailsController(initialProduct: product), tag: product.name);
+      }
+    }
   }
 
-  MockProductDetailsController get controller => Get.find<MockProductDetailsController>();
+  @override
+  void dispose() {
+    _pageController.dispose();
+    super.dispose();
+  }
+
+  void _onPageChanged(int index) {
+    setState(() {
+      _currentIndex = index;
+    });
+    if (_pageController.hasClients && _pageController.page?.round() != index) {
+      _pageController.animateToPage(index, duration: const Duration(milliseconds: 300), curve: Curves.easeInOut);
+    }
+  }
 
   @override
   Widget build(BuildContext context) {
@@ -36,34 +74,203 @@ class MockProductDetailsView extends StatelessWidget {
               borderRadius: const BorderRadius.vertical(top: Radius.circular(24)),
               child: Container(
                 color: const Color(0xFFF5F5F5),
-                child: Column(
-                  children: [
-                    _buildAppBar(),
-                    Expanded(
-                      child: SingleChildScrollView(
-                        physics: const AlwaysScrollableScrollPhysics(),
-                        child: Column(
-                          crossAxisAlignment: CrossAxisAlignment.start,
-                          children: [
-                            _buildImageGallery(context),
-                            _buildProductInfo(),
-                            _buildVariantSelection(),
-                            _buildOffersSection(),
-                            _buildExpandableSection('Seller Details', _buildSellerDetails()),
-                            _buildExpandableSection('Other Information', _buildOtherInfo()),
-                            _buildSimilarProducts(),
-                            const SizedBox(height: 24),
-                          ],
-                        ),
-                      ),
-                    ),
-                    _buildBottomBar(),
-                  ],
+                child: PageView.builder(
+                  controller: _pageController,
+                  itemCount: widget.products.length,
+                  onPageChanged: _onPageChanged,
+                  itemBuilder: (context, index) {
+                    return MockProductDetailsPageContent(
+                      product: widget.products[index],
+                      products: widget.products,
+                      currentIndex: _currentIndex,
+                      onPageChanged: _onPageChanged,
+                    );
+                  },
                 ),
               ),
             ),
           ),
         ],
+      ),
+    );
+  }
+}
+
+class MockProductDetailsPageContent extends StatelessWidget {
+  final ProductModel product;
+  final List<ProductModel> products;
+  final int currentIndex;
+  final void Function(int) onPageChanged;
+
+  const MockProductDetailsPageContent({
+    super.key,
+    required this.product,
+    required this.products,
+    required this.currentIndex,
+    required this.onPageChanged,
+  });
+
+  MockProductDetailsController get controller => Get.find<MockProductDetailsController>(tag: product.name);
+
+  @override
+  Widget build(BuildContext context) {
+    return SingleChildScrollView(
+      physics: const AlwaysScrollableScrollPhysics(),
+      child: Column(
+        crossAxisAlignment: CrossAxisAlignment.start,
+        children: [
+          Stack(
+            clipBehavior: Clip.none,
+            children: [
+              // SECTION 1: Product Card
+              Container(
+                color: Colors.white,
+                padding: EdgeInsets.only(bottom: products.length > 1 ? 40 : 16),
+                child: Column(
+                  children: [
+                    _buildAppBar(),
+                    _buildImageGallery(context),
+                    _buildProductInfo(),
+                    _buildVariantSelection(),
+                    _buildPriceAddBar(),
+                  ],
+                ),
+              ),
+              // Floating Navigator precisely on the seam
+              if (products.length > 1)
+                Positioned(
+                  bottom: -25, // Halves the 50px navigator circle to float perfectly on the line
+                  left: 0,
+                  right: 0,
+                  child: _buildFixedNavigator(),
+                ),
+            ],
+          ),
+          if (products.length > 1)
+            const SizedBox(height: 35), // Space out section 2 so navigator doesn't overlap it
+
+          // SECTION 2: Details & Offers
+          _buildOffersSection(),
+          _buildExpandableSection('Seller Details', _buildSellerDetails()),
+          _buildExpandableSection('Other Information', _buildOtherInfo()),
+          _buildSimilarProducts(),
+          const SizedBox(height: 40),
+        ],
+      ),
+    );
+  }
+
+  Widget _buildPriceAddBar() {
+    return Container(
+      padding: const EdgeInsets.symmetric(horizontal: 16, vertical: 8),
+      color: Colors.white,
+      child: Row(
+        mainAxisAlignment: MainAxisAlignment.spaceBetween,
+        children: [
+          Obx(() {
+            final variant = controller.currentVariant;
+            return Column(
+              mainAxisSize: MainAxisSize.min,
+              crossAxisAlignment: CrossAxisAlignment.start,
+              children: [
+                if (variant.originalPrice > variant.price)
+                  Row(
+                    children: [
+                      Text(
+                        '₹${variant.originalPrice.toStringAsFixed(0)}',
+                        style: const TextStyle(
+                            fontSize: 12,
+                            color: Colors.grey,
+                            decoration: TextDecoration.lineThrough),
+                      ),
+                      const SizedBox(width: 4),
+                      if (variant.discountPercent > 0)
+                        Container(
+                          padding: const EdgeInsets.symmetric(
+                              horizontal: 4, vertical: 2),
+                          decoration: BoxDecoration(
+                            color: Colors.green,
+                            borderRadius: BorderRadius.circular(4),
+                          ),
+                          child: Text(
+                            '${variant.discountPercent}% OFF',
+                            style: const TextStyle(
+                                fontSize: 10,
+                                color: Colors.white,
+                                fontWeight: FontWeight.bold),
+                          ),
+                        )
+                    ],
+                  ),
+                Text(
+                  '₹${variant.price.toStringAsFixed(0)}',
+                  style: const TextStyle(
+                      fontSize: 20, fontWeight: FontWeight.bold),
+                ),
+              ],
+            );
+          }),
+          AnimatedAddButton(controller: controller),
+        ],
+      ),
+    );
+  }
+
+  Widget _buildFixedNavigator() {
+    return Container(
+      height: 70,
+      color: Colors.transparent,
+      child: SingleChildScrollView(
+        scrollDirection: Axis.horizontal,
+        clipBehavior: Clip.none,
+        child: Row(
+          mainAxisAlignment: MainAxisAlignment.center,
+          children: List.generate(products.length, (index) {
+            final isSelected = product.name == products[index].name;
+            return GestureDetector(
+              onTap: () => onPageChanged(index),
+              child: Container(
+                margin: const EdgeInsets.symmetric(horizontal: 10),
+                child: Center(
+                  child: AnimatedScale(
+                    scale: isSelected ? 1.3 : 0.8,
+                    duration: const Duration(milliseconds: 250),
+                    curve: Curves.easeInOut,
+                    child: AnimatedContainer(
+                      duration: const Duration(milliseconds: 250),
+                      curve: Curves.easeInOut,
+                      width: 50,
+                      height: 50,
+                      decoration: BoxDecoration(
+                        shape: BoxShape.circle,
+                        color: Colors.transparent,
+                        border: isSelected ? Border.all(color: Colors.white, width: 4) : null,
+                        boxShadow: isSelected
+                            ? [
+                                BoxShadow(
+                                  color: Colors.black.withValues(alpha: 0.3),
+                                  blurRadius: 10,
+                                  offset: const Offset(0, 4),
+                                )
+                              ]
+                            : null,
+                      ),
+                      child: ClipOval(
+                        child: Opacity(
+                          opacity: isSelected ? 1.0 : 0.5,
+                          child: SafeImage(
+                            imageUrl: products[index].image,
+                            fit: BoxFit.cover,
+                          ),
+                        ),
+                      ),
+                    ),
+                  ),
+                ),
+              ),
+            );
+          }),
+        ),
       ),
     );
   }
@@ -109,7 +316,7 @@ class MockProductDetailsView extends StatelessWidget {
               },
             ),
             itemBuilder: (context, index, realIndex) {
-              final imageWidget = CachedNetworkImage(
+              final imageWidget = SafeImage(
                 imageUrl: controller.details.galleryImages[index],
                 fit: BoxFit.contain,
                 width: double.infinity,
@@ -133,7 +340,7 @@ class MockProductDetailsView extends StatelessWidget {
                     dotHeight: 6,
                     dotWidth: 6,
                     activeDotColor: AppColors.primaryColor,
-                    dotColor: Colors.black.withOpacity(0.26),
+                    dotColor: Colors.black.withValues(alpha: 0.26),
                   ),
                 )),
           ),
@@ -231,7 +438,7 @@ class MockProductDetailsView extends StatelessWidget {
                             horizontal: 16, vertical: 8),
                         decoration: BoxDecoration(
                           color: isSelected
-                              ? AppColors.primaryColor.withOpacity(0.1)
+                              ? AppColors.primaryColor.withValues(alpha: 0.1)
                               : Colors.white,
                           border: Border.all(
                             color: isSelected
@@ -386,7 +593,7 @@ class MockProductDetailsView extends StatelessWidget {
                   child: Column(
                     children: [
                       Expanded(
-                        child: CachedNetworkImage(
+                        child: SafeImage(
                           imageUrl: controller.details.galleryImages[0],
                           fit: BoxFit.cover,
                         ),
@@ -404,133 +611,6 @@ class MockProductDetailsView extends StatelessWidget {
                 );
               },
             ),
-          )
-        ],
-      ),
-    );
-  }
-
-  Widget _buildBottomBar() {
-    return Container(
-      padding: const EdgeInsets.all(16),
-      decoration: BoxDecoration(
-        color: Colors.white,
-        boxShadow: [
-          BoxShadow(
-            color: Colors.black.withOpacity(0.05),
-            offset: const Offset(0, -4),
-            blurRadius: 10,
-          )
-        ],
-      ),
-      child: Row(
-        mainAxisAlignment: MainAxisAlignment.spaceBetween,
-        children: [
-          Obx(() {
-            final variant = controller.currentVariant;
-            return Column(
-              mainAxisSize: MainAxisSize.min,
-              crossAxisAlignment: CrossAxisAlignment.start,
-              children: [
-                if (variant.originalPrice > variant.price)
-                  Row(
-                    children: [
-                      Text(
-                        '₹${variant.originalPrice.toStringAsFixed(0)}',
-                        style: const TextStyle(
-                            fontSize: 12,
-                            color: Colors.grey,
-                            decoration: TextDecoration.lineThrough),
-                      ),
-                      const SizedBox(width: 4),
-                      if (variant.discountPercent > 0)
-                        Container(
-                          padding: const EdgeInsets.symmetric(
-                              horizontal: 4, vertical: 2),
-                          decoration: BoxDecoration(
-                            color: Colors.green,
-                            borderRadius: BorderRadius.circular(4),
-                          ),
-                          child: Text(
-                            '${variant.discountPercent}% OFF',
-                            style: const TextStyle(
-                                fontSize: 10,
-                                color: Colors.white,
-                                fontWeight: FontWeight.bold),
-                          ),
-                        )
-                    ],
-                  ),
-                Text(
-                  '₹${variant.price.toStringAsFixed(0)}',
-                  style: const TextStyle(
-                      fontSize: 20, fontWeight: FontWeight.bold),
-                ),
-              ],
-            );
-          }),
-          Row(
-            children: [
-              Container(
-                decoration: BoxDecoration(
-                  border: Border.all(color: AppColors.primaryColor),
-                  borderRadius: BorderRadius.circular(8),
-                ),
-                child: Row(
-                  children: [
-                    InkWell(
-                      onTap: controller.decrementQuantity,
-                      child: const Padding(
-                        padding: EdgeInsets.all(8.0),
-                        child: Icon(Icons.remove,
-                            size: 20, color: AppColors.primaryColor),
-                      ),
-                    ),
-                    Obx(() => Text(
-                          controller.quantity.value.toString(),
-                          style: const TextStyle(
-                              fontSize: 16, fontWeight: FontWeight.bold),
-                        )),
-                    InkWell(
-                      onTap: controller.incrementQuantity,
-                      child: const Padding(
-                        padding: EdgeInsets.all(8.0),
-                        child: Icon(Icons.add,
-                            size: 20, color: AppColors.primaryColor),
-                      ),
-                    ),
-                  ],
-                ),
-              ),
-              const SizedBox(width: 16),
-              ElevatedButton(
-                onPressed: () {
-                  Get.snackbar(
-                    'Added to Cart',
-                    '${controller.quantity.value} item(s) added.',
-                    snackPosition: SnackPosition.BOTTOM,
-                    backgroundColor: Colors.black87,
-                    colorText: Colors.white,
-                    margin: const EdgeInsets.all(16),
-                  );
-                },
-                style: ElevatedButton.styleFrom(
-                  backgroundColor: AppColors.primaryColor,
-                  padding:
-                      const EdgeInsets.symmetric(horizontal: 24, vertical: 12),
-                  shape: RoundedRectangleBorder(
-                    borderRadius: BorderRadius.circular(8),
-                  ),
-                ),
-                child: const Text(
-                  'ADD',
-                  style: TextStyle(
-                      fontSize: 16,
-                      fontWeight: FontWeight.bold,
-                      color: Colors.white),
-                ),
-              )
-            ],
           )
         ],
       ),

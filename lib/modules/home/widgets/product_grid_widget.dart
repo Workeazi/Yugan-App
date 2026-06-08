@@ -13,48 +13,48 @@ class ProductGridWidget extends StatelessWidget {
   List<ProductModel> _getDummyProductsForCategory(String categoryName) {
     if (categoryName == "Fresh") {
       return [
-        ProductModel(name: "Fresh Alphonso Mango", weight: "500g", price: 299, originalPrice: 399, discountPercent: 25, image: "https://images.unsplash.com/photo-1553279768-865429fa0078"),
-        ProductModel(name: "Organic Spinach Bundle", weight: "200g", price: 49, image: "https://images.unsplash.com/photo-1576045057995-568f588f82fb"),
-        ProductModel(name: "Farm Fresh Tomatoes", weight: "1kg", price: 60, originalPrice: 80, discountPercent: 25, image: "https://images.unsplash.com/photo-1592924357228-91a4daadcfea"),
-        ProductModel(name: "A2 Cow Milk", weight: "1L", price: 85, image: "https://images.unsplash.com/photo-1563636619-e9143da7973b"),
-        ProductModel(name: "Whole Wheat Bread", weight: "400g", price: 45, image: "https://images.unsplash.com/photo-1509440159596-0249088772ff"),
-        ProductModel(name: "Fresh Paneer", weight: "200g", price: 85, originalPrice: 100, discountPercent: 15, image: "https://images.unsplash.com/photo-1559598467-f8b76c8155d0"),
+        ProductModel(name: "Fresh Alphonso Mango", weight: "500g", price: 299, originalPrice: 399, discountPercent: 25, image: "assets/images/products/fresh_alphonso_mango.png"),
+        ProductModel(name: "Organic Spinach Bundle", weight: "200g", price: 49, image: "assets/images/products/organic_spinach_bundle.png"),
+        ProductModel(name: "Farm Fresh Tomatoes", weight: "1kg", price: 60, originalPrice: 80, discountPercent: 25, image: "assets/images/products/farm_fresh_tomatoes.png"),
+        ProductModel(name: "A2 Cow Milk", weight: "1L", price: 85, image: "assets/images/products/a2_cow_milk.png"),
+        ProductModel(name: "Whole Wheat Bread", weight: "400g", price: 45, image: "assets/images/products/whole_wheat_bread.png"),
+        ProductModel(name: "Fresh Paneer", weight: "200g", price: 85, originalPrice: 100, discountPercent: 15, image: "assets/images/products/fresh_paneer.png"),
       ];
     } else if (categoryName == "Electronics") {
       return [
-        ProductModel(name: "Wireless Earbuds Pro", weight: "1 piece", price: 1299, originalPrice: 2499, discountPercent: 48, image: "https://images.unsplash.com/photo-1590658268037-6bf12165a8df"),
-        ProductModel(name: "USB-C Fast Cable", weight: "1m", price: 199, image: "https://images.unsplash.com/photo-1583863788434-e58a36330cf0"),
-        ProductModel(name: "20W Power Adapter", weight: "1 piece", price: 499, originalPrice: 999, discountPercent: 50, image: "https://images.unsplash.com/photo-1585862201084-25e6c7ab9827"),
-        ProductModel(name: "10000mAh Powerbank", weight: "1 piece", price: 999, originalPrice: 1499, discountPercent: 33, image: "https://images.unsplash.com/photo-1609091839311-d5365f9ff1c5"),
-        ProductModel(name: "Bluetooth Speaker", weight: "1 piece", price: 899, image: "https://images.unsplash.com/photo-1608043152269-423dbba4e7e1"),
-        ProductModel(name: "Smart Watch", weight: "1 piece", price: 1999, originalPrice: 3999, discountPercent: 50, image: "https://images.unsplash.com/photo-1579586337278-3befd40fd17a"),
+        ProductModel(name: "Wireless Earbuds Pro", weight: "1 piece", price: 1299, originalPrice: 2499, discountPercent: 48, image: "assets/images/products/wireless_earbuds_pro.png"),
+        ProductModel(name: "USB-C Fast Cable", weight: "1m", price: 199, image: "assets/images/products/usb_c_fast_cable.png"),
+        ProductModel(name: "20W Power Adapter", weight: "1 piece", price: 499, originalPrice: 999, discountPercent: 50, image: "assets/images/products/20w_power_adapter.png"),
+        ProductModel(name: "10000mAh Powerbank", weight: "1 piece", price: 999, originalPrice: 1499, discountPercent: 33, image: "assets/images/products/10000mah_powerbank.png"),
+        ProductModel(name: "Bluetooth Speaker", weight: "1 piece", price: 899, image: "assets/images/products/bluetooth_speaker.png"),
+        ProductModel(name: "Smart Watch", weight: "1 piece", price: 1999, originalPrice: 3999, discountPercent: 50, image: "assets/images/products/smart_watch.png"),
       ];
     } else if (categoryName == "Beauty") {
       return [
-        ProductModel(name: "Matte Red Lipstick", weight: "1 piece", price: 399, originalPrice: 599, discountPercent: 33, image: "https://images.unsplash.com/photo-1586495777744-4413f21062fa"),
-        ProductModel(name: "Luxury Perfume", weight: "50ml", price: 1299, image: "https://images.unsplash.com/photo-1594035910387-fea47794261f"),
-        ProductModel(name: "Vitamin C Face Wash", weight: "100ml", price: 249, originalPrice: 349, discountPercent: 28, image: "https://images.unsplash.com/photo-1556228578-0d85b1a4d571"),
-        ProductModel(name: "Argan Oil Shampoo", weight: "200ml", price: 349, image: "https://images.unsplash.com/photo-1608248543803-ba4f8c70ae0b"),
-        ProductModel(name: "Face Moisturizer", weight: "50g", price: 450, image: "https://images.unsplash.com/photo-1620916566398-39f1143ab7be"),
-        ProductModel(name: "Nail Polish Combo", weight: "3 pieces", price: 199, originalPrice: 299, discountPercent: 33, image: "https://images.unsplash.com/photo-1519014816548-bf5fe059e98b"),
+        ProductModel(name: "Matte Red Lipstick", weight: "1 piece", price: 399, originalPrice: 599, discountPercent: 33, image: "assets/images/products/matte_red_lipstick.png"),
+        ProductModel(name: "Luxury Perfume", weight: "50ml", price: 1299, image: "assets/images/products/luxury_perfume.png"),
+        ProductModel(name: "Vitamin C Face Wash", weight: "100ml", price: 249, originalPrice: 349, discountPercent: 28, image: "assets/images/products/vitamin_c_face_wash.png"),
+        ProductModel(name: "Argan Oil Shampoo", weight: "200ml", price: 349, image: "assets/images/products/argan_oil_shampoo.png"),
+        ProductModel(name: "Face Moisturizer", weight: "50g", price: 450, image: "assets/images/products/face_moisturizer.png"),
+        ProductModel(name: "Nail Polish Combo", weight: "3 pieces", price: 199, originalPrice: 299, discountPercent: 33, image: "assets/images/products/nail_polish_combo.png"),
       ];
     } else if (categoryName == "Fashion") {
       return [
-        ProductModel(name: "Classic White Sneakers", weight: "1 pair", price: 1999, originalPrice: 2999, discountPercent: 33, image: "https://images.unsplash.com/photo-1549298916-b41d501d3772"),
-        ProductModel(name: "Cotton T-Shirt", weight: "1 piece", price: 499, image: "https://images.unsplash.com/photo-1521572163474-6864f9cf17ab"),
-        ProductModel(name: "Denim Jeans", weight: "1 piece", price: 1299, originalPrice: 1999, discountPercent: 35, image: "https://images.unsplash.com/photo-1542272604-780c40fb2616"),
-        ProductModel(name: "Analog Watch", weight: "1 piece", price: 2499, image: "https://images.unsplash.com/photo-1524592094714-0f0654e20314"),
-        ProductModel(name: "Leather Wallet", weight: "1 piece", price: 699, originalPrice: 999, discountPercent: 30, image: "https://images.unsplash.com/photo-1627123424574-724758594e93"),
-        ProductModel(name: "Running Shoes", weight: "1 pair", price: 1599, image: "https://images.unsplash.com/photo-1542291026-7eec264c27ff"),
+        ProductModel(name: "Classic White Sneakers", weight: "1 pair", price: 1999, originalPrice: 2999, discountPercent: 33, image: "assets/images/products/classic_white_sneakers.png"),
+        ProductModel(name: "Cotton T-Shirt", weight: "1 piece", price: 499, image: "assets/images/products/cotton_t_shirt.png"),
+        ProductModel(name: "Denim Jeans", weight: "1 piece", price: 1299, originalPrice: 1999, discountPercent: 35, image: "assets/images/products/denim_jeans.png"),
+        ProductModel(name: "Analog Watch", weight: "1 piece", price: 2499, image: "assets/images/products/analog_watch.png"),
+        ProductModel(name: "Leather Wallet", weight: "1 piece", price: 699, originalPrice: 999, discountPercent: 30, image: "assets/images/products/leather_wallet.png"),
+        ProductModel(name: "Running Shoes", weight: "1 pair", price: 1599, image: "assets/images/products/running_shoes.png"),
       ];
     } else if (categoryName == "Grocery") {
       return [
-        ProductModel(name: "Basmati Rice", weight: "5kg", price: 549, originalPrice: 750, discountPercent: 26, image: "https://images.unsplash.com/photo-1586201375761-83865001e31c"),
-        ProductModel(name: "Refined Sugar", weight: "1kg", price: 55, image: "https://images.unsplash.com/photo-1622485601955-46f9f302be1b"),
-        ProductModel(name: "Sunflower Oil", weight: "1L", price: 145, originalPrice: 180, discountPercent: 19, image: "https://images.unsplash.com/photo-1474667520023-e28022b781bc"),
-        ProductModel(name: "Spices Combo", weight: "500g", price: 299, image: "https://images.unsplash.com/photo-1596040033229-a9821ebd058d"),
-        ProductModel(name: "Toor Dal", weight: "1kg", price: 135, originalPrice: 160, discountPercent: 15, image: "https://images.unsplash.com/photo-1585996843486-5381a1796d4f"),
-        ProductModel(name: "Mixed Dry Fruits", weight: "500g", price: 499, originalPrice: 799, discountPercent: 37, image: "https://images.unsplash.com/photo-1596040033229-a9821ebd058d"),
+        ProductModel(name: "Basmati Rice", weight: "5kg", price: 549, originalPrice: 750, discountPercent: 26, image: "assets/images/products/basmati_rice.png"),
+        ProductModel(name: "Refined Sugar", weight: "1kg", price: 55, image: "assets/images/products/refined_sugar.png"),
+        ProductModel(name: "Sunflower Oil", weight: "1L", price: 145, originalPrice: 180, discountPercent: 19, image: "assets/images/products/sunflower_oil.png"),
+        ProductModel(name: "Spices Combo", weight: "500g", price: 299, image: "assets/images/products/spices_combo.png"),
+        ProductModel(name: "Toor Dal", weight: "1kg", price: 135, originalPrice: 160, discountPercent: 15, image: "assets/images/products/toor_dal.png"),
+        ProductModel(name: "Mixed Dry Fruits", weight: "500g", price: 499, originalPrice: 799, discountPercent: 37, image: "assets/images/products/mixed_dry_fruits.png"),
       ];
     } else {
       // Generic mixed products for other categories
@@ -64,7 +64,7 @@ class ProductGridWidget extends StatelessWidget {
         price: (199.0 + (index * 100)), 
         originalPrice: (index % 2 == 0) ? (299.0 + (index * 100)) : null,
         discountPercent: (index % 2 == 0) ? 33 : 0,
-        image: "https://images.unsplash.com/photo-1610486027581-ea99d5901300"
+        image: "https://picsum.photos/seed/1610486027581/400"
       ));
     }
   }
@@ -160,6 +160,8 @@ class ProductGridWidget extends StatelessWidget {
                   return ProductCardWidget(
                     product: product,
                     primaryColor: primaryColor,
+                    products: products,
+                    index: index,
                   );
                 },
               ),
@@ -170,3 +172,4 @@ class ProductGridWidget extends StatelessWidget {
     );
   }
 }
+

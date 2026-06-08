@@ -128,7 +128,7 @@ class AccountView extends StatelessWidget {
                           crossAxisAlignment: CrossAxisAlignment.start,
                           children: [
                             const Text(
-                              "Kartly Plus",
+                              "YUGAN Plus",
                               style: TextStyle(fontSize: 20, fontWeight: FontWeight.bold, color: Colors.white, letterSpacing: 1),
                             ),
                             const SizedBox(height: 12),
@@ -241,7 +241,7 @@ class AccountView extends StatelessWidget {
                                   shape: RoundedRectangleBorder(borderRadius: BorderRadius.circular(8)),
                                   elevation: 0,
                                 ),
-                                child: const Text("Explore Kartly"),
+                                child: const Text("Explore YUGAN"),
                               ),
                             ],
                           ),

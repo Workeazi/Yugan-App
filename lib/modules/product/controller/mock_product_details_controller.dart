@@ -11,6 +11,7 @@ class MockProductDetailsController extends GetxController {
   var selectedVariantIndex = 0.obs;
   var currentImageIndex = 0.obs;
   var quantity = 1.obs;
+  var isAddedToCart = false.obs;
 
   @override
   void onInit() {
@@ -20,11 +21,12 @@ class MockProductDetailsController extends GetxController {
     details = MockProductDetailsModel(
       name: initialProduct.name,
       category: 'Grocery',
-      brand: 'Kartly Fresh',
-      shortDescription: 'Premium quality product delivered straight to your door. Enjoy the best quality with Kartly.',
+      brand: 'YUGAN Fresh',
+      shortDescription: 'Premium quality product delivered straight to your door. Enjoy the best quality with YUGAN.',
       rating: 4.8,
       deliveryTime: '15 mins',
       galleryImages: [
+        initialProduct.image,
         initialProduct.image,
         initialProduct.image,
         initialProduct.image,
@@ -49,7 +51,7 @@ class MockProductDetailsController extends GetxController {
           discountPercent: initialProduct.discountPercent + 5,
         ),
       ],
-      sellerName: 'Kartly Retail Pvt Ltd',
+      sellerName: 'YUGAN Retail Pvt Ltd',
       sellerFssai: 'FSSAI Lic. No. 10012022000456',
       sellerLocation: 'Bangalore, Karnataka',
       countryOfOrigin: 'India',
@@ -75,11 +77,15 @@ class MockProductDetailsController extends GetxController {
 
   void incrementQuantity() {
     quantity.value++;
+    isAddedToCart.value = true;
   }
 
   void decrementQuantity() {
     if (quantity.value > 1) {
       quantity.value--;
+    } else {
+      quantity.value = 1;
+      isAddedToCart.value = false;
     }
   }
 }

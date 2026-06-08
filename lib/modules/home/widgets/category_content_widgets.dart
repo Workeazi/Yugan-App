@@ -102,6 +102,8 @@ class _HorizontalProductListState extends State<HorizontalProductList> {
                 child: ProductCardWidget(
                   product: widget.products[index],
                   primaryColor: widget.primaryColor,
+                  products: widget.products,
+                  index: index,
                 ),
               );
             },
@@ -117,109 +119,109 @@ List<ProductModel> _getCategoryProducts(String categoryName, String section) {
   if (categoryName == "Fresh") {
     if (section == "best") {
       return [
-        ProductModel(name: "Kashmir Apples", weight: "1kg", price: 199, originalPrice: 249, discountPercent: 20, image: "https://images.unsplash.com/photo-1560806887-1e4cd0b6fac6"),
-        ProductModel(name: "Robusta Bananas", weight: "1 Dozen", price: 60, originalPrice: 80, discountPercent: 25, image: "https://images.unsplash.com/photo-1481349518771-20055b2a7b24"),
-        ProductModel(name: "Fresh Orange Juice", weight: "1L", price: 120, image: "https://images.unsplash.com/photo-1621506289937-a8e4df240d0b"),
+        ProductModel(name: "Kashmir Apples", weight: "1kg", price: 199, originalPrice: 249, discountPercent: 20, image: "assets/images/products/kashmir_apples.png"),
+        ProductModel(name: "Robusta Bananas", weight: "1 Dozen", price: 60, originalPrice: 80, discountPercent: 25, image: "assets/images/products/robusta_bananas.png"),
+        ProductModel(name: "Fresh Orange Juice", weight: "1L", price: 120, image: "assets/images/products/fresh_orange_juice.png"),
       ];
     } else if (section == "trending") {
       return [
-        ProductModel(name: "Avocado", weight: "2 pcs", price: 249, originalPrice: 299, discountPercent: 16, image: "https://images.unsplash.com/photo-1523049673857-eb18f1d7b578"),
-        ProductModel(name: "Organic Strawberries", weight: "200g", price: 150, image: "https://images.unsplash.com/photo-1464965911861-746a04b4bca6"),
-        ProductModel(name: "Dragon Fruit", weight: "1 pc", price: 80, image: "https://images.unsplash.com/photo-1527325678964-54921661f888"),
+        ProductModel(name: "Avocado", weight: "2 pcs", price: 249, originalPrice: 299, discountPercent: 16, image: "assets/images/products/avocado.png"),
+        ProductModel(name: "Organic Strawberries", weight: "200g", price: 150, image: "assets/images/products/organic_strawberries.png"),
+        ProductModel(name: "Dragon Fruit", weight: "1 pc", price: 80, image: "assets/images/products/dragon_fruit.png"),
       ];
     } else {
       return [
-        ProductModel(name: "Fresh Broccoli", weight: "500g", price: 40, image: "https://images.unsplash.com/photo-1459411621453-7b03977f4bfc"),
-        ProductModel(name: "Mushrooms", weight: "200g", price: 55, originalPrice: 65, discountPercent: 15, image: "https://images.unsplash.com/photo-1511688878353-3a2f5be94cd7"),
-        ProductModel(name: "Bell Peppers", weight: "3 pcs", price: 90, image: "https://images.unsplash.com/photo-1563514227147-6d2ff665a6a0"),
+        ProductModel(name: "Fresh Broccoli", weight: "500g", price: 40, image: "assets/images/products/fresh_broccoli.png"),
+        ProductModel(name: "Mushrooms", weight: "200g", price: 55, originalPrice: 65, discountPercent: 15, image: "assets/images/products/mushrooms.png"),
+        ProductModel(name: "Bell Peppers", weight: "3 pcs", price: 90, image: "assets/images/products/bell_peppers.png"),
       ];
     }
   } else if (categoryName == "Electronics") {
     if (section == "best") {
       return [
-        ProductModel(name: "Noise Cancelling Headphones", weight: "1 pc", price: 2999, originalPrice: 4999, discountPercent: 40, image: "https://images.unsplash.com/photo-1505740420928-5e560c06d30e"),
-        ProductModel(name: "Wireless Mouse", weight: "1 pc", price: 499, originalPrice: 999, discountPercent: 50, image: "https://images.unsplash.com/photo-1527864550417-7fd91fc51a46"),
-        ProductModel(name: "Mechanical Keyboard", weight: "1 pc", price: 1999, image: "https://images.unsplash.com/photo-1595225476474-87563907a212"),
+        ProductModel(name: "Noise Cancelling Headphones", weight: "1 pc", price: 2999, originalPrice: 4999, discountPercent: 40, image: "assets/images/products/noise_cancelling_headphones.png"),
+        ProductModel(name: "Wireless Mouse", weight: "1 pc", price: 499, originalPrice: 999, discountPercent: 50, image: "assets/images/products/wireless_mouse.png"),
+        ProductModel(name: "Mechanical Keyboard", weight: "1 pc", price: 1999, image: "assets/images/products/mechanical_keyboard.png"),
       ];
     } else if (section == "trending") {
       return [
-        ProductModel(name: "Smart Watch Pro", weight: "1 pc", price: 3499, originalPrice: 4999, discountPercent: 30, image: "https://images.unsplash.com/photo-1579586337278-3befd40fd17a"),
-        ProductModel(name: "Bluetooth Speaker", weight: "1 pc", price: 1499, originalPrice: 2499, discountPercent: 40, image: "https://images.unsplash.com/photo-1608043152269-423dbba4e7e1"),
-        ProductModel(name: "4K Action Camera", weight: "1 pc", price: 5999, image: "https://images.unsplash.com/photo-1526170375885-4d8ecf77b99f"),
+        ProductModel(name: "Smart Watch Pro", weight: "1 pc", price: 3499, originalPrice: 4999, discountPercent: 30, image: "assets/images/products/smart_watch_pro.png"),
+        ProductModel(name: "Bluetooth Speaker", weight: "1 pc", price: 1499, originalPrice: 2499, discountPercent: 40, image: "assets/images/products/bluetooth_speaker.png"),
+        ProductModel(name: "4K Action Camera", weight: "1 pc", price: 5999, image: "assets/images/products/4k_action_camera.png"),
       ];
     } else {
       return [
-        ProductModel(name: "64GB Pen Drive", weight: "1 pc", price: 399, originalPrice: 699, discountPercent: 42, image: "https://images.unsplash.com/photo-1601524909162-ae8725290836"),
-        ProductModel(name: "USB-C Hub", weight: "1 pc", price: 899, originalPrice: 1499, discountPercent: 40, image: "https://images.unsplash.com/photo-1550275994-cdc89cd1948f"),
-        ProductModel(name: "Fast Wireless Charger", weight: "1 pc", price: 699, image: "https://images.unsplash.com/photo-1583863788434-e58a36330cf0"),
+        ProductModel(name: "64GB Pen Drive", weight: "1 pc", price: 399, originalPrice: 699, discountPercent: 42, image: "assets/images/products/64gb_pen_drive.png"),
+        ProductModel(name: "USB-C Hub", weight: "1 pc", price: 899, originalPrice: 1499, discountPercent: 40, image: "assets/images/products/usb_c_hub.png"),
+        ProductModel(name: "Fast Wireless Charger", weight: "1 pc", price: 699, image: "assets/images/products/fast_wireless_charger.png"),
       ];
     }
   } else if (categoryName == "Beauty") {
     if (section == "best") {
       return [
-        ProductModel(name: "Matte Lipstick", weight: "1 pc", price: 499, image: "https://images.unsplash.com/photo-1586495777744-4413f21062fa"),
-        ProductModel(name: "Glow Face Wash", weight: "100ml", price: 199, image: "https://images.unsplash.com/photo-1556228578-0d85b1a4d571"),
-        ProductModel(name: "Rose Perfume", weight: "50ml", price: 899, image: "https://images.unsplash.com/photo-1594035910387-fea47794261f"),
+        ProductModel(name: "Matte Lipstick", weight: "1 pc", price: 499, image: "assets/images/products/matte_lipstick.png"),
+        ProductModel(name: "Glow Face Wash", weight: "100ml", price: 199, image: "assets/images/products/glow_face_wash.png"),
+        ProductModel(name: "Rose Perfume", weight: "50ml", price: 899, image: "assets/images/products/rose_perfume.png"),
       ];
     } else if (section == "trending") {
       return [
-        ProductModel(name: "Anti-Aging Serum", weight: "30ml", price: 699, image: "https://images.unsplash.com/photo-1620916566398-39f1143ab7be"),
-        ProductModel(name: "Sunscreen SPF 50", weight: "50g", price: 349, image: "https://images.unsplash.com/photo-1556228578-0d85b1a4d571"),
-        ProductModel(name: "Hair Serum", weight: "100ml", price: 299, image: "https://images.unsplash.com/photo-1608248543803-ba4f8c70ae0b"),
+        ProductModel(name: "Anti-Aging Serum", weight: "30ml", price: 699, image: "assets/images/products/anti_aging_serum.png"),
+        ProductModel(name: "Sunscreen SPF 50", weight: "50g", price: 349, image: "assets/images/products/sunscreen_spf_50.png"),
+        ProductModel(name: "Hair Serum", weight: "100ml", price: 299, image: "assets/images/products/hair_serum.png"),
       ];
     } else {
       return [
-        ProductModel(name: "Body Lotion", weight: "200ml", price: 249, image: "https://images.unsplash.com/photo-1620916566398-39f1143ab7be"),
-        ProductModel(name: "Nail Polish Set", weight: "3 pcs", price: 199, image: "https://images.unsplash.com/photo-1519014816548-bf5fe059e98b"),
-        ProductModel(name: "Charcoal Face Mask", weight: "50g", price: 150, image: "https://images.unsplash.com/photo-1556228578-0d85b1a4d571"),
+        ProductModel(name: "Body Lotion", weight: "200ml", price: 249, image: "assets/images/products/body_lotion.png"),
+        ProductModel(name: "Nail Polish Set", weight: "3 pcs", price: 199, image: "assets/images/products/nail_polish_set.png"),
+        ProductModel(name: "Charcoal Face Mask", weight: "50g", price: 150, image: "assets/images/products/charcoal_face_mask.png"),
       ];
     }
   } else if (categoryName == "Fashion") {
     if (section == "best") {
       return [
-        ProductModel(name: "Running Shoes", weight: "1 pair", price: 1499, image: "https://images.unsplash.com/photo-1542291026-7eec264c27ff"),
-        ProductModel(name: "Cotton T-Shirt", weight: "1 pc", price: 399, image: "https://images.unsplash.com/photo-1521572163474-6864f9cf17ab"),
-        ProductModel(name: "Slim Fit Jeans", weight: "1 pc", price: 999, image: "https://images.unsplash.com/photo-1542272604-780c40fb2616"),
+        ProductModel(name: "Running Shoes", weight: "1 pair", price: 1499, image: "assets/images/products/running_shoes.png"),
+        ProductModel(name: "Cotton T-Shirt", weight: "1 pc", price: 399, image: "assets/images/products/cotton_t_shirt.png"),
+        ProductModel(name: "Slim Fit Jeans", weight: "1 pc", price: 999, image: "assets/images/products/slim_fit_jeans.png"),
       ];
     } else if (section == "trending") {
       return [
-        ProductModel(name: "Leather Wallet", weight: "1 pc", price: 499, image: "https://images.unsplash.com/photo-1627123424574-724758594e93"),
-        ProductModel(name: "Classic Sunglasses", weight: "1 pc", price: 799, image: "https://images.unsplash.com/photo-1511499767150-a48a237f0083"),
-        ProductModel(name: "Analog Watch", weight: "1 pc", price: 1999, image: "https://images.unsplash.com/photo-1524592094714-0f0654e20314"),
+        ProductModel(name: "Leather Wallet", weight: "1 pc", price: 499, image: "assets/images/products/leather_wallet.png"),
+        ProductModel(name: "Classic Sunglasses", weight: "1 pc", price: 799, image: "assets/images/products/classic_sunglasses.png"),
+        ProductModel(name: "Analog Watch", weight: "1 pc", price: 1999, image: "assets/images/products/analog_watch.png"),
       ];
     } else {
       return [
-        ProductModel(name: "Canvas Backpack", weight: "1 pc", price: 899, image: "https://images.unsplash.com/photo-1553062407-98eeb64c6a62"),
-        ProductModel(name: "Formal Belt", weight: "1 pc", price: 299, image: "https://images.unsplash.com/photo-1627123424574-724758594e93"),
-        ProductModel(name: "Polo Shirt", weight: "1 pc", price: 599, image: "https://images.unsplash.com/photo-1521572163474-6864f9cf17ab"),
+        ProductModel(name: "Canvas Backpack", weight: "1 pc", price: 899, image: "assets/images/products/canvas_backpack.png"),
+        ProductModel(name: "Formal Belt", weight: "1 pc", price: 299, image: "assets/images/products/formal_belt.png"),
+        ProductModel(name: "Polo Shirt", weight: "1 pc", price: 599, image: "assets/images/products/polo_shirt.png"),
       ];
     }
   } else if (categoryName == "Grocery") {
     if (section == "best") {
       return [
-        ProductModel(name: "Premium Basmati Rice", weight: "5kg", price: 549, image: "https://images.unsplash.com/photo-1586201375761-83865001e31c"),
-        ProductModel(name: "Refined Sunflower Oil", weight: "1L", price: 145, image: "https://images.unsplash.com/photo-1474667520023-e28022b781bc"),
-        ProductModel(name: "Toor Dal", weight: "1kg", price: 120, image: "https://images.unsplash.com/photo-1585996843486-5381a1796d4f"),
+        ProductModel(name: "Premium Basmati Rice", weight: "5kg", price: 549, image: "assets/images/products/premium_basmati_rice.png"),
+        ProductModel(name: "Refined Sunflower Oil", weight: "1L", price: 145, image: "assets/images/products/refined_sunflower_oil.png"),
+        ProductModel(name: "Toor Dal", weight: "1kg", price: 120, image: "assets/images/products/toor_dal.png"),
       ];
     } else if (section == "trending") {
       return [
-        ProductModel(name: "Mixed Dry Fruits", weight: "500g", price: 499, image: "https://images.unsplash.com/photo-1596040033229-a9821ebd058d"),
-        ProductModel(name: "Instant Coffee", weight: "100g", price: 199, image: "https://images.unsplash.com/photo-1559525839-b184a4d698c7"),
-        ProductModel(name: "Green Tea Bags", weight: "25 pcs", price: 149, image: "https://images.unsplash.com/photo-1564890369478-c89ca6d9cde9"),
+        ProductModel(name: "Mixed Dry Fruits", weight: "500g", price: 499, image: "assets/images/products/mixed_dry_fruits.png"),
+        ProductModel(name: "Instant Coffee", weight: "100g", price: 199, image: "assets/images/products/instant_coffee.png"),
+        ProductModel(name: "Green Tea Bags", weight: "25 pcs", price: 149, image: "assets/images/products/green_tea_bags.png"),
       ];
     } else {
       return [
-        ProductModel(name: "Whole Wheat Atta", weight: "5kg", price: 249, image: "https://images.unsplash.com/photo-1509440159596-0249088772ff"),
-        ProductModel(name: "Salt", weight: "1kg", price: 25, image: "https://images.unsplash.com/photo-1622485601955-46f9f302be1b"),
-        ProductModel(name: "Turmeric Powder", weight: "200g", price: 60, image: "https://images.unsplash.com/photo-1596040033229-a9821ebd058d"),
+        ProductModel(name: "Whole Wheat Atta", weight: "5kg", price: 249, image: "assets/images/products/whole_wheat_atta.png"),
+        ProductModel(name: "Salt", weight: "1kg", price: 25, image: "assets/images/products/salt.png"),
+        ProductModel(name: "Turmeric Powder", weight: "200g", price: 60, image: "assets/images/products/turmeric_powder.png"),
       ];
     }
   } else {
     // Generic fallback for Kids, Wedding, Home, 50% Off, Vacations, etc.
     return [
-      ProductModel(name: "Premium $categoryName 1", weight: "1 unit", price: 299, image: "https://images.unsplash.com/photo-1610486027581-ea99d5901300"),
-      ProductModel(name: "Essential $categoryName 2", weight: "1 unit", price: 149, image: "https://images.unsplash.com/photo-1610486027581-ea99d5901300"),
-      ProductModel(name: "Luxury $categoryName 3", weight: "1 unit", price: 899, image: "https://images.unsplash.com/photo-1610486027581-ea99d5901300"),
+      ProductModel(name: "Premium $categoryName 1", weight: "1 unit", price: 299, image: "assets/images/products/premium_all_1.png"),
+      ProductModel(name: "Essential $categoryName 2", weight: "1 unit", price: 149, image: "assets/images/products/essential_all_2.png"),
+      ProductModel(name: "Luxury $categoryName 3", weight: "1 unit", price: 899, image: "assets/images/products/luxury_all_3.png"),
     ];
   }
 }
@@ -449,3 +451,4 @@ class _OffersWidgetState extends State<OffersWidget> {
     );
   }
 }
+

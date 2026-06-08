@@ -1,62 +1,81 @@
-import 'package:cached_network_image/cached_network_image.dart';
 import 'package:flutter/material.dart';
 import 'package:get/get.dart';
 import 'package:iconsax_flutter/iconsax_flutter.dart';
 
-import '../../../core/constants/app_colors.dart';
-import '../../../shared/widgets/cart_icon_widget.dart';
-import '../../../shared/widgets/notification_icon_widget.dart';
-import '../../../shared/widgets/search_icon_widget.dart';
-import '../../../shared/widgets/shimmer_widgets.dart';
-import '../../product/view/new_product_list_view.dart';
+import '../../../core/widgets/safe_image.dart';
+import '../../../core/widgets/scale_button.dart';
+import 'category_store_view.dart';
 import '../controller/category_controller.dart';
+import '../model/category_model.dart';
+import '../model/subcategory_model.dart';
 
-class AllCategoriesView extends StatelessWidget {
+class AllCategoriesView extends StatefulWidget {
   final bool showBackButton;
   const AllCategoriesView({super.key, this.showBackButton = true});
 
   @override
-  Widget build(BuildContext context) {
-    final isDark = Theme.of(context).brightness == Brightness.dark;
-    final leftPaneWidth = MediaQuery.of(context).size.width >= 600
-        ? 140.0
-        : 100.0;
+  State<AllCategoriesView> createState() => _AllCategoriesViewState();
+}
 
+class _AllCategoriesViewState extends State<AllCategoriesView>
+    with SingleTickerProviderStateMixin {
+  late AnimationController _fadeController;
+
+  @override
+  void initState() {
+    super.initState();
+    _fadeController = AnimationController(
+      vsync: this,
+      duration: const Duration(milliseconds: 400),
+    )..forward();
+  }
+
+  @override
+  void dispose() {
+    _fadeController.dispose();
+    super.dispose();
+  }
+
+  @override
+  Widget build(BuildContext context) {
     final controller = Get.find<CategoryController>();
 
     return SafeArea(
       child: Scaffold(
+        backgroundColor: Colors.white,
         appBar: AppBar(
+          backgroundColor: Colors.white,
+          elevation: 0,
+          scrolledUnderElevation: 0,
           automaticallyImplyLeading: false,
-          leadingWidth: 44,
-          titleSpacing: showBackButton ? 0 : 10,
-          leading: showBackButton
-              ? Material(
-                  color: Colors.transparent,
-                  shape: const CircleBorder(),
-                  clipBehavior: Clip.antiAlias,
-                  child: IconButton(
-                    onPressed: () => Get.back(),
-                    icon: const Icon(Iconsax.arrow_left_2_copy, size: 20),
-                    splashRadius: 20,
-                  ),
+          leadingWidth: widget.showBackButton ? 44 : 10,
+          titleSpacing: widget.showBackButton ? 0 : 16,
+          leading: widget.showBackButton
+              ? IconButton(
+                  onPressed: () => Get.back(),
+                  icon: const Icon(Iconsax.arrow_left_2_copy,
+                      size: 20, color: Colors.black),
                 )
-              : null,
+              : const SizedBox(),
           centerTitle: false,
           title: Text(
-            'All Categories'.tr,
-            style: const TextStyle(fontWeight: FontWeight.normal, fontSize: 18),
+            'Categories'.tr,
+            style: const TextStyle(
+                fontWeight: FontWeight.w700, fontSize: 18, color: Colors.black),
           ),
-          actionsPadding: const EdgeInsetsDirectional.only(end: 10),
-          actions: const [
-            SearchIconWidget(),
-            CartIconWidget(),
-            NotificationIconWidget(),
+          actions: [
+            IconButton(
+              icon: const Icon(Iconsax.search_normal_1_copy, color: Colors.black, size: 22),
+              onPressed: () {
+                // Handle search
+              },
+            ),
+            const SizedBox(width: 8),
           ],
         ),
         body: Obx(() {
           if (controller.isLoading.value) {
-            return _ShimmerBody(leftPaneWidth: leftPaneWidth, isDark: isDark);
+            return const Center(child: CircularProgressIndicator());
           }
           if (controller.error.isNotEmpty) {
             return Center(
@@ -66,251 +85,189 @@ class AllCategoriesView extends StatelessWidget {
           final cats = controller.categories;
           if (cats.isEmpty) return Center(child: Text('No categories'.tr));
 
-          return Row(
-            crossAxisAlignment: CrossAxisAlignment.start,
-            children: [
-              SizedBox(
-                width: leftPaneWidth,
-                height: double.infinity,
-                child: Obx(() {
-                  final sel = controller.selectedIndex.value;
-                  return ListView.separated(
-                    itemCount: cats.length,
-                    separatorBuilder: (_, __) => const SizedBox(height: 0),
-                    itemBuilder: (context, index) {
-                      final cat = cats[index];
-                      final selected = index == sel;
-
-                      return InkWell(
-                        onTap: () => controller.selectCategory(index),
-                        child: Container(
-                          padding: const EdgeInsets.symmetric(
-                            horizontal: 6,
-                            vertical: 10,
-                          ),
-                          color: selected
-                              ? (isDark
-                                    ? AppColors.darkCardColor
-                                    : AppColors.lightCardColor)
-                              : AppColors.transparentColor,
-                          child: Column(
-                            mainAxisSize: MainAxisSize.min,
-                            children: [
-                              SizedBox(
-                                height: 42,
-                                width: 42,
-                                child: cat.imageUrl.isEmpty
-                                    ? const Icon(
-                                        Icons.image_not_supported_outlined,
-                                      )
-                                    : CachedNetworkImage(
-                                        imageUrl: cat.imageUrl,
-                                        fit: BoxFit.cover,
-                                        placeholder: (_, __) =>
-                                            const ShimmerCircle(diameter: 42),
-                                        errorWidget: (_, __, ___) => const Icon(
-                                          Icons.broken_image_outlined,
-                                        ),
-                                      ),
-                              ),
-                              const SizedBox(height: 8),
-                              Text(
-                                cat.name,
-                                maxLines: 2,
-                                textAlign: TextAlign.center,
-                                overflow: TextOverflow.ellipsis,
-                                style: TextStyle(
-                                  fontSize: 12,
-                                  height: 1.0,
-                                  color: selected
-                                      ? Theme.of(context).colorScheme.primary
-                                      : null,
-                                ),
-                              ),
-                            ],
-                          ),
-                        ),
-                      );
-                    },
-                  );
-                }),
+          return FadeTransition(
+            opacity: _fadeController,
+            child: SingleChildScrollView(
+              padding: const EdgeInsets.only(bottom: 32),
+              child: Column(
+                crossAxisAlignment: CrossAxisAlignment.start,
+                children: [
+                  if (cats.isNotEmpty)
+                    _buildShopByStoreSection(cats.firstWhere(
+                        (c) => c.slug == 'shop-by-store',
+                        orElse: () => cats[0])),
+                  for (final cat in cats.where((c) => c.slug != 'shop-by-store'))
+                    _buildGridSection(cat),
+                ],
               ),
-              Expanded(
-                child: Container(
-                  color: isDark
-                      ? AppColors.darkCardColor
-                      : AppColors.lightCardColor,
-                  child: Obx(() {
-                    final selected = controller.selectedIndex.value;
-                    final cat = controller.categories[selected];
-                    final subs = cat.subcategories;
-
-                    if (subs.isEmpty) {
-                      return Center(child: Text('No subcategories'.tr));
-                    }
-
-                    return ListView.separated(
-                      padding: EdgeInsets.zero,
-                      itemCount: subs.length,
-                      separatorBuilder: (_, __) => Divider(
-                        height: 1,
-                        color: Theme.of(
-                          context,
-                        ).dividerColor.withValues(alpha: 0),
-                      ),
-                      itemBuilder: (context, i) {
-                        final item = subs[i];
-                        if (item.isAll) {
-                          return ListTile(
-                            contentPadding: const EdgeInsets.only(left: 10),
-                            title: Text(
-                              'All Products'.tr,
-                              style: const TextStyle(fontSize: 15),
-                            ),
-                            dense: true,
-                            onTap: () {
-                              final cat = controller
-                                  .categories[controller.selectedIndex.value];
-                              Get.to(
-                                () => const NewProductListView(),
-                                arguments: {
-                                  'categoryId': cat.id,
-                                  'categoryName': cat.name,
-                                  'subcategoryId': null,
-                                  'subcategoryName': null,
-                                  'leafId': null,
-                                  'leafTag': null,
-                                },
-                              );
-                            },
-                          );
-                        }
-                        if (item.hasDropdown) {
-                          return Theme(
-                            data: Theme.of(
-                              context,
-                            ).copyWith(dividerColor: Colors.transparent),
-                            child: ExpansionTile(
-                              key: PageStorageKey('sub_${item.id}'),
-                              trailing: const Icon(
-                                Iconsax.arrow_down_1_copy,
-                                size: 14,
-                              ),
-                              tilePadding: const EdgeInsets.symmetric(
-                                horizontal: 10,
-                              ),
-                              childrenPadding: const EdgeInsets.only(
-                                left: 0,
-                                right: 10,
-                                bottom: 0,
-                              ),
-                              title: Text(
-                                item.name,
-                                style: const TextStyle(fontSize: 15),
-                              ),
-                              children: item.children.map((leaf) {
-                                return ListTile(
-                                  title: Text(leaf.name),
-                                  dense: true,
-                                  onTap: () {
-                                    final cat =
-                                        controller.categories[controller
-                                            .selectedIndex
-                                            .value];
-                                    Get.to(
-                                      () => const NewProductListView(),
-                                      arguments: {
-                                        'categoryId': cat.id,
-                                        'categoryName': cat.name,
-                                        'subcategoryId': item.id,
-                                        'subcategoryName': item.name,
-                                        'leafId': leaf.id,
-                                        'leafTag': leaf.name,
-                                      },
-                                    );
-                                  },
-                                );
-                              }).toList(),
-                            ),
-                          );
-                        }
-                        return ListTile(
-                          title: Text(
-                            item.name,
-                            style: const TextStyle(fontSize: 14),
-                          ),
-                          dense: true,
-                          onTap: () {
-                            final cat = controller
-                                .categories[controller.selectedIndex.value];
-                            Get.to(
-                              () => const NewProductListView(),
-                              arguments: {
-                                'categoryId': cat.id,
-                                'categoryName': cat.name,
-                                'subcategoryId': item.id,
-                                'subcategoryName': item.name,
-                                'leafId': null,
-                                'leafTag': null,
-                              },
-                            );
-                          },
-                          contentPadding: const EdgeInsets.symmetric(
-                            horizontal: 10,
-                          ),
-                        );
-                      },
-                    );
-                  }),
-                ),
-              ),
-            ],
+            ),
           );
         }),
       ),
     );
   }
-}
 
-class _ShimmerBody extends StatelessWidget {
-  const _ShimmerBody({required this.leftPaneWidth, required this.isDark});
-  final double leftPaneWidth;
-  final bool isDark;
+  Widget _buildShopByStoreSection(CategoryModel cat) {
+    final items = cat.subcategories.where((e) => !e.isAll).toList();
+    if (items.isEmpty) return const SizedBox.shrink();
 
-  @override
-  Widget build(BuildContext context) {
-    return Row(
+    return Column(
+      crossAxisAlignment: CrossAxisAlignment.start,
       children: [
+        Padding(
+          padding: const EdgeInsets.fromLTRB(16, 16, 16, 16),
+          child: Text(
+            cat.name,
+            style: const TextStyle(
+              fontSize: 18,
+              fontWeight: FontWeight.w800,
+              color: Colors.black87,
+              letterSpacing: -0.2,
+            ),
+          ),
+        ),
         SizedBox(
-          width: leftPaneWidth,
+          height: 140,
           child: ListView.separated(
-            itemCount: 8,
-            separatorBuilder: (_, __) => const SizedBox(height: 0),
-            itemBuilder: (_, __) => const Padding(
-              padding: EdgeInsets.symmetric(horizontal: 6, vertical: 10),
+            padding: const EdgeInsets.symmetric(horizontal: 16),
+            scrollDirection: Axis.horizontal,
+            itemCount: items.length,
+            separatorBuilder: (_, __) => const SizedBox(width: 12),
+            itemBuilder: (context, index) {
+              final item = items[index];
+
+              return ScaleButton(
+                onTap: () => _navigateToProductList(cat, item),
+                child: Container(
+                  width: 110,
+                  decoration: BoxDecoration(
+                    color: const Color(0xFFF3F7FD),
+                    borderRadius: BorderRadius.circular(20),
+                  ),
+                  padding: const EdgeInsets.all(12),
+                  child: Column(
+                    mainAxisAlignment: MainAxisAlignment.center,
+                    children: [
+                      Expanded(
+                        child: item.image != null
+                            ? SafeImage(
+                                imageUrl: item.image!,
+                                fit: BoxFit.contain,
+                              )
+                            : const Icon(Icons.storefront_outlined,
+                                color: Colors.grey, size: 36),
+                      ),
+                      const SizedBox(height: 10),
+                      Text(
+                        item.name,
+                        maxLines: 2,
+                        textAlign: TextAlign.center,
+                        style: const TextStyle(
+                          fontSize: 13,
+                          fontWeight: FontWeight.w700,
+                          height: 1.1,
+                          letterSpacing: -0.2,
+                          color: Colors.black87,
+                        ),
+                      ),
+                    ],
+                  ),
+                ),
+              );
+            },
+          ),
+        ),
+        const SizedBox(height: 8),
+      ],
+    );
+  }
+
+  Widget _buildGridSection(CategoryModel cat) {
+    final items = cat.subcategories.where((e) => !e.isAll).toList();
+    if (items.isEmpty) return const SizedBox.shrink();
+
+    return Column(
+      crossAxisAlignment: CrossAxisAlignment.start,
+      children: [
+        Padding(
+          padding: const EdgeInsets.fromLTRB(16, 28, 16, 16),
+          child: Text(
+            cat.name,
+            style: const TextStyle(
+              fontSize: 18,
+              fontWeight: FontWeight.w800,
+              color: Colors.black87,
+              letterSpacing: -0.2,
+            ),
+          ),
+        ),
+        GridView.builder(
+          padding: const EdgeInsets.symmetric(horizontal: 16),
+          shrinkWrap: true,
+          physics: const NeverScrollableScrollPhysics(),
+          gridDelegate: const SliverGridDelegateWithFixedCrossAxisCount(
+            crossAxisCount: 4,
+            mainAxisSpacing: 20,
+            crossAxisSpacing: 16,
+            childAspectRatio: 0.65,
+          ),
+          itemCount: items.length,
+          itemBuilder: (context, index) {
+            final item = items[index];
+
+            return ScaleButton(
+              onTap: () => _navigateToProductList(cat, item),
               child: Column(
                 children: [
-                  ShimmerCircle(diameter: 42),
-                  SizedBox(height: 8),
-                  ShimmerBox(width: 60, height: 10, borderRadius: 6),
+                  Expanded(
+                    child: Container(
+                      width: double.infinity,
+                      decoration: BoxDecoration(
+                        color: const Color(0xFFF3F7FD),
+                        borderRadius: BorderRadius.circular(16),
+                      ),
+                      padding: const EdgeInsets.all(10),
+                      child: item.image != null
+                          ? SafeImage(
+                              imageUrl: item.image!,
+                              fit: BoxFit.contain,
+                            )
+                          : const Icon(Icons.image_not_supported_outlined,
+                              color: Colors.grey),
+                    ),
+                  ),
+                  const SizedBox(height: 8),
+                  Text(
+                    item.name,
+                    maxLines: 2,
+                    textAlign: TextAlign.center,
+                    overflow: TextOverflow.ellipsis,
+                    style: const TextStyle(
+                      fontSize: 11,
+                      fontWeight: FontWeight.w600,
+                      height: 1.2,
+                      letterSpacing: -0.1,
+                      color: Colors.black87,
+                    ),
+                  ),
                 ],
               ),
-            ),
-          ),
-        ),
-        Expanded(
-          child: Container(
-            color: isDark ? AppColors.darkCardColor : AppColors.lightCardColor,
-            child: ListView.separated(
-              padding: const EdgeInsets.symmetric(horizontal: 10),
-              itemCount: 10,
-              separatorBuilder: (_, __) => const SizedBox(height: 8),
-              itemBuilder: (_, __) =>
-                  const ShimmerBox(height: 16, borderRadius: 6),
-            ),
-          ),
+            );
+          },
         ),
       ],
+    );
+  }
+
+  void _navigateToProductList(CategoryModel cat, SubcategoryModel item) {
+    Get.to(
+      () => CategoryStoreView(
+        categoryId: cat.id,
+        categoryName: cat.name,
+        categorySlug: cat.slug,
+        subcategoryId: item.id,
+        subcategoryName: item.name,
+      ),
     );
   }
 }
