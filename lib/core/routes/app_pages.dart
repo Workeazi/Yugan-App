@@ -1,3 +1,4 @@
+import 'package:flutter/material.dart';
 import 'package:get/get.dart';
 import 'package:kartly_e_commerce/modules/account/view/edit_address_view.dart';
 import 'package:kartly_e_commerce/modules/account/view/edit_profile_view.dart';
@@ -52,6 +53,9 @@ class AppPages {
     GetPage(
       name: AppRoutes.bottomNavbarView,
       page: () => const BottomNavbarView(),
+      transition: Transition.fadeIn,
+      transitionDuration: const Duration(milliseconds: 1000),
+      curve: Curves.easeInOutCubic,
     ),
     GetPage(name: AppRoutes.searchView, page: () => const SearchView()),
     GetPage(
