@@ -1,9 +1,6 @@
 import 'package:flutter/material.dart';
-import 'package:get/get.dart';
-import '../../../core/routes/app_routes.dart';
-import '../../../core/routes/mock_pdp_route.dart';
 import '../../../core/widgets/safe_image.dart';
-import '../../product/view/mock_product_details_view.dart';
+import '../../product/view/product_details_sheet.dart';
 import '../models/product_model.dart';
 
 class ProductCardWidget extends StatefulWidget {
@@ -34,15 +31,26 @@ class _ProductCardWidgetState extends State<ProductCardWidget> {
 
     return GestureDetector(
       onTapDown: (_) => setState(() => _isPressed = true),
+      // onTapUp: (_) {
+      //   setState(() => _isPressed = false);
+      //   Future.delayed(const Duration(milliseconds: 50), () {
+      //     Navigator.push(
+      //       context,
+      //       MockPdpRoute(page: MockProductDetailsView(
+      //         products: widget.products ?? [product],
+      //         initialIndex: widget.index ?? 0,
+      //       )),
+      //     );
+      //   });
+      // },
+
       onTapUp: (_) {
         setState(() => _isPressed = false);
         Future.delayed(const Duration(milliseconds: 50), () {
-          Navigator.push(
+          showProductDetailsSheet(
             context,
-            MockPdpRoute(page: MockProductDetailsView(
-              products: widget.products ?? [product],
-              initialIndex: widget.index ?? 0,
-            )),
+            products: widget.products ?? [product],
+            initialIndex: widget.index ?? 0,
           );
         });
       },
