@@ -1,7 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:get/get.dart';
 import '../controllers/home_theme_controller.dart';
-import '../../bottom_navbar/controller/bottom_navbar_controller.dart' as kartly_bottom_nav;
 
 class HeaderWidget extends GetView<HomeThemeController> {
   const HeaderWidget({super.key});
@@ -28,7 +27,7 @@ class HeaderWidget extends GetView<HomeThemeController> {
           child: Row(
             children: [
               // LEFT: Delivery Address
-              const Expanded(
+              Expanded(
                 child: Row(
                   crossAxisAlignment: CrossAxisAlignment.center,
                   children: [
@@ -38,16 +37,16 @@ class HeaderWidget extends GetView<HomeThemeController> {
                         style: TextStyle(
                           fontSize: 16,
                           fontWeight: FontWeight.bold,
-                          color: Colors.white,
+                          color: controller.currentCategory.primaryColor.computeLuminance() > 0.5 ? Colors.black87 : Colors.white,
                         ),
                         maxLines: 1,
                         overflow: TextOverflow.ellipsis,
                       ),
                     ),
-                    SizedBox(width: 4),
+                    const SizedBox(width: 4),
                     Icon(
                       Icons.keyboard_arrow_down,
-                      color: Colors.white,
+                      color: controller.currentCategory.primaryColor.computeLuminance() > 0.5 ? Colors.black87 : Colors.white,
                       size: 24,
                     ),
                   ],
@@ -57,10 +56,7 @@ class HeaderWidget extends GetView<HomeThemeController> {
               // RIGHT: Profile Circle
               GestureDetector(
                 onTap: () {
-                  // Switch bottom navbar to Account tab (index 4)
-                  if (Get.isRegistered<kartly_bottom_nav.BottomNavbarController>()) {
-                    Get.find<kartly_bottom_nav.BottomNavbarController>().currentIndex.value = 4;
-                  }
+                  Get.toNamed('/account_view');
                 },
                 child: Container(
                   width: 40,
@@ -68,7 +64,10 @@ class HeaderWidget extends GetView<HomeThemeController> {
                   decoration: BoxDecoration(
                     shape: BoxShape.circle,
                     color: Colors.black.withValues(alpha: 0.3),
-                    border: Border.all(color: Colors.white, width: 2),
+                    border: Border.all(
+                      color: controller.currentCategory.primaryColor.computeLuminance() > 0.5 ? Colors.black87 : Colors.white, 
+                      width: 2
+                    ),
                     boxShadow: [
                       BoxShadow(
                         color: Colors.black.withValues(alpha: 0.15),
@@ -77,9 +76,9 @@ class HeaderWidget extends GetView<HomeThemeController> {
                       ),
                     ],
                   ),
-                  child: const Icon(
+                  child: Icon(
                     Icons.person,
-                    color: Colors.white,
+                    color: controller.currentCategory.primaryColor.computeLuminance() > 0.5 ? Colors.black87 : Colors.white,
                     size: 22,
                   ),
                 ),

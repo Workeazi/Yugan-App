@@ -12,8 +12,8 @@ class HomeThemeController extends GetxController {
     CategoryModel(
       label: "All",
       icon: Icons.shopping_basket,
-      primaryColor: const Color(0xFF97009A),
-      backgroundColor: const Color(0xFF97009A),
+      primaryColor: const Color(0xFFFCE18F), // Gold
+      backgroundColor: const Color(0xFFFEF5D9), // Light Gold
     ),
     CategoryModel(
       label: "Fresh",
@@ -42,8 +42,8 @@ class HomeThemeController extends GetxController {
     CategoryModel(
       label: "Kids",
       icon: Icons.child_care,
-      primaryColor: Colors.purple, // Purple
-      backgroundColor: Colors.purple.shade100,
+      primaryColor: const Color(0xFFFCE18F), // Gold
+      backgroundColor: const Color(0xFFFEF5D9), // Light Gold
     ),
     CategoryModel(
       label: "Wedding",

@@ -109,19 +109,9 @@ class BottomNavbarView extends StatelessWidget {
                   label: 'Categories'.tr,
                 ),
                 BottomNavigationBarItem(
-                  icon: const Icon(Iconsax.printer_copy),
-                  activeIcon: const Icon(Icons.print),
-                  label: 'Print'.tr,
-                ),
-                BottomNavigationBarItem(
                   icon: const Icon(Iconsax.shopping_cart_copy),
                   activeIcon: const Icon(Icons.shopping_cart),
                   label: 'Cart'.tr,
-                ),
-                BottomNavigationBarItem(
-                  icon: const Icon(Iconsax.user_copy),
-                  activeIcon: const Icon(Icons.person),
-                  label: 'Profile'.tr,
                 ),
               ],
             ),

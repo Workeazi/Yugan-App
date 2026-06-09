@@ -1,6 +1,5 @@
 import 'package:flutter/material.dart';
-import 'package:get/get.dart';
-import '../../../core/routes/app_routes.dart';
+
 import '../../../core/routes/mock_pdp_route.dart';
 import '../../../core/widgets/safe_image.dart';
 import '../../product/view/mock_product_details_view.dart';
@@ -175,7 +174,7 @@ class _ProductCardWidgetState extends State<ProductCardWidget> {
                           style: TextStyle(
                             fontSize: 12,
                             fontWeight: FontWeight.bold,
-                            color: primaryColor,
+                            color: primaryColor.computeLuminance() > 0.5 ? Colors.black87 : primaryColor,
                           ),
                         ),
                       ),
@@ -220,8 +219,8 @@ class _ProductCardWidgetState extends State<ProductCardWidget> {
                   ),
                   child: Text(
                     "${product.discountPercent}% OFF",
-                    style: const TextStyle(
-                      color: Colors.white,
+                    style: TextStyle(
+                      color: primaryColor.computeLuminance() > 0.5 ? Colors.black87 : Colors.white,
                       fontSize: 10,
                       fontWeight: FontWeight.bold,
                     ),

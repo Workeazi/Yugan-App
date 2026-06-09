@@ -26,6 +26,7 @@ class AccountView extends StatelessWidget {
         backgroundColor: Colors.white,
         elevation: 0,
         centerTitle: false,
+        automaticallyImplyLeading: true,
         leading: showBackButton 
             ? IconButton(
                 icon: const Icon(Icons.arrow_back_ios, color: Colors.black, size: 20),
@@ -100,63 +101,6 @@ class AccountView extends StatelessWidget {
 
               const SizedBox(height: 12),
 
-              // Membership Card
-              Padding(
-                padding: const EdgeInsets.symmetric(horizontal: 16),
-                child: Container(
-                  decoration: BoxDecoration(
-                    borderRadius: BorderRadius.circular(20),
-                    gradient: const LinearGradient(
-                      colors: [Color(0xFF2C3E50), Color(0xFF000000)],
-                      begin: Alignment.topLeft,
-                      end: Alignment.bottomRight,
-                    ),
-                    boxShadow: [
-                      BoxShadow(
-                        color: Colors.black.withValues(alpha: 0.1),
-                        blurRadius: 10,
-                        offset: const Offset(0, 5),
-                      ),
-                    ],
-                  ),
-                  padding: const EdgeInsets.all(20),
-                  child: Row(
-                    mainAxisAlignment: MainAxisAlignment.spaceBetween,
-                    children: [
-                      Expanded(
-                        child: Column(
-                          crossAxisAlignment: CrossAxisAlignment.start,
-                          children: [
-                            const Text(
-                              "YUGAN Plus",
-                              style: TextStyle(fontSize: 20, fontWeight: FontWeight.bold, color: Colors.white, letterSpacing: 1),
-                            ),
-                            const SizedBox(height: 12),
-                            _benefitRow(Icons.check_circle, "Unlimited Free Delivery"),
-                            const SizedBox(height: 6),
-                            _benefitRow(Icons.check_circle, "Exclusive Discounts"),
-                            const SizedBox(height: 6),
-                            _benefitRow(Icons.check_circle, "Priority Support"),
-                          ],
-                        ),
-                      ),
-                      ElevatedButton(
-                        onPressed: () {},
-                        style: ElevatedButton.styleFrom(
-                          backgroundColor: Colors.white,
-                          foregroundColor: Colors.black,
-                          shape: RoundedRectangleBorder(borderRadius: BorderRadius.circular(10)),
-                          padding: const EdgeInsets.symmetric(horizontal: 20, vertical: 12),
-                          elevation: 0,
-                        ),
-                        child: const Text("JOIN NOW", style: TextStyle(fontWeight: FontWeight.bold)),
-                      ),
-                    ],
-                  ),
-                ),
-              ),
-
-              const SizedBox(height: 24),
 
               // Quick Actions Grid
               Container(
@@ -262,6 +206,7 @@ class AccountView extends StatelessWidget {
                 child: Column(
                   children: [
                     _menuListItem(Iconsax.shopping_bag_copy, "Orders", "Current, delivered, cancelled", () => Get.toNamed(AppRoutes.myOrderListView)),
+                    _menuListItem(Icons.print, "YUGAN Print Store", "Business Cards, Banners & more", () => Get.toNamed('/print_view')),
                     _menuListItem(Iconsax.heart_copy, "Wishlist", "Favorite and saved products", () => _comingSoon("Wishlist")),
                     _menuListItem(Iconsax.presention_chart_copy, "Rewards", "Reward points and benefits", () => _comingSoon("Rewards")),
                     _menuListItem(Iconsax.ticket_copy, "Coupons", "Available and used coupons", () => _comingSoon("Coupons")),
@@ -334,15 +279,6 @@ class AccountView extends StatelessWidget {
     );
   }
 
-  Widget _benefitRow(IconData icon, String text) {
-    return Row(
-      children: [
-        Icon(icon, color: Colors.amber, size: 16),
-        const SizedBox(width: 8),
-        Text(text, style: const TextStyle(color: Colors.white70, fontSize: 13, fontWeight: FontWeight.w500)),
-      ],
-    );
-  }
 
   Widget _quickAction(IconData icon, String title, VoidCallback onTap) {
     return Material(

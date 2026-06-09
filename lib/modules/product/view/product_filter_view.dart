@@ -412,7 +412,7 @@ class _PriceInputsNoLimit extends StatelessWidget {
         isDense: true,
         hintText: hint,
         filled: true,
-        fillColor: isDark ? const Color(0xFF0F172A) : Colors.white,
+        fillColor: isDark ? AppColors.darkCardColor : Colors.white,
         contentPadding: const EdgeInsets.symmetric(
           horizontal: 12,
           vertical: 12,

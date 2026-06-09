@@ -2,7 +2,7 @@ import 'dart:async';
 import 'package:flutter/material.dart';
 import '../models/product_model.dart';
 import 'product_card_widget.dart';
-import 'product_card_widget.dart';
+
 
 class HorizontalProductList extends StatefulWidget {
   final String title;
@@ -308,7 +308,7 @@ class _OffersWidgetState extends State<OffersWidget> {
     } else if (category == "Beauty") {
       return [
         {"title": "Makeup Offers", "subtitle": "Top brands discounted", "color": const Color(0xFFE91E63)},
-        {"title": "Skincare Deals", "subtitle": "Glow more, pay less", "color": const Color(0xFF9C27B0)},
+        {"title": "Skincare Deals", "subtitle": "Glow more, pay less", "color": const Color(0xFFFCE18F)},
         {"title": "Perfume Discounts", "subtitle": "Luxury scents", "color": const Color(0xFFF06292)},
       ];
     } else if (category == "Fashion") {
@@ -410,18 +410,18 @@ class _OffersWidgetState extends State<OffersWidget> {
                   children: [
                     Text(
                       offer["title"] as String,
-                      style: const TextStyle(
+                      style: TextStyle(
                         fontSize: 26,
                         fontWeight: FontWeight.bold,
-                        color: Colors.white,
+                        color: (offer["color"] as Color).computeLuminance() > 0.5 ? Colors.black87 : Colors.white,
                       ),
                     ),
                     const SizedBox(height: 8),
                     Text(
                       offer["subtitle"] as String,
-                      style: const TextStyle(
+                      style: TextStyle(
                         fontSize: 15,
-                        color: Colors.white70,
+                        color: (offer["color"] as Color).computeLuminance() > 0.5 ? Colors.black54 : Colors.white70,
                       ),
                     ),
                   ],

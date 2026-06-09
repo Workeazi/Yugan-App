@@ -44,7 +44,7 @@ class SubCategoryWidget extends StatelessWidget {
               width: 100,
               margin: const EdgeInsets.symmetric(horizontal: 4.0),
               decoration: BoxDecoration(
-                color: const Color(0xFF5E125E), // Solid deep purple from screenshot
+                color: const Color(0xFFFCE18F), // Light gold
                 borderRadius: BorderRadius.circular(12),
                 border: Border.all(
                   color: AppColors.instamartPrimary.withValues(alpha: 0.5),
@@ -62,7 +62,7 @@ class SubCategoryWidget extends StatelessWidget {
                       textAlign: TextAlign.center,
                       style: const TextStyle(
                         fontSize: 12,
-                        color: Colors.white,
+                        color: Colors.black87,
                         fontWeight: FontWeight.w600,
                         height: 1.2,
                       ),
@@ -76,7 +76,7 @@ class SubCategoryWidget extends StatelessWidget {
                     right: 0,
                     child: Icon(
                       category['icon'],
-                      color: Colors.white54,
+                      color: Colors.black54,
                       size: 40,
                     ),
                   ),
@@ -98,7 +98,7 @@ class SubCategoryWidget extends StatelessWidget {
                         category['offer'],
                         textAlign: TextAlign.center,
                         style: const TextStyle(
-                          color: Color(0xFF5E125E), // Purple text
+                          color: Colors.black87, // Black text on yellow banner for readability
                           fontSize: 9,
                           fontWeight: FontWeight.w900,
                         ),

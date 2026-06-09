@@ -1,4 +1,5 @@
 import 'package:get/get.dart';
+import 'package:kartly_e_commerce/modules/account/view/account_view.dart';
 import 'package:kartly_e_commerce/modules/account/view/edit_address_view.dart';
 import 'package:kartly_e_commerce/modules/account/view/edit_profile_view.dart';
 import 'package:kartly_e_commerce/modules/account/view/my_address_view.dart';
@@ -40,6 +41,7 @@ import '../../modules/search/view/product_search_filter.dart';
 import '../../modules/search/view/search_results_list_view.dart';
 import '../../modules/search/view/search_view.dart';
 import '../../modules/seller/widgets/seller_bottom_navbar.dart';
+import '../../modules/print/view/print_view.dart';
 import 'app_routes.dart';
 
 class AppPages {
@@ -222,6 +224,14 @@ class AppPages {
         final int id = Get.arguments as int;
         return RefundRequestDetailsView(refundId: id);
       },
+    ),
+    GetPage(
+      name: AppRoutes.accountView,
+      page: () => const AccountView(),
+    ),
+    GetPage(
+      name: AppRoutes.printView,
+      page: () => const PrintView(),
     ),
   ];
 }

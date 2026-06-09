@@ -18,7 +18,6 @@ import '../widgets/header_widget.dart';
 import '../widgets/search_widget.dart';
 import '../widgets/category_navigation_widget.dart';
 import '../widgets/category_banner_widget.dart';
-
 import '../widgets/product_grid_widget.dart';
 import '../widgets/delivery_bar_widget.dart';
 import '../widgets/category_content_widgets.dart';
@@ -205,7 +204,7 @@ class _HomeViewState extends State<HomeView> {
                           },
                           child: Column(
                             key: ValueKey<String>(controller.currentCategory.label),
-                            children: [
+                              children: [
                               const SizedBox(height: 10),
                               CategoryBannerWidget(
                                 category: controller.currentCategory.label,

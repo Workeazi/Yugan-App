@@ -1072,7 +1072,7 @@ class _CheckoutFullShimmer extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     final isDark = Theme.of(context).brightness == Brightness.dark;
-    final base = isDark ? const Color(0xFF1E293B) : const Color(0xFFE5E7EB);
+    final base = isDark ? AppColors.darkCardColor : const Color(0xFFE5E7EB);
     final highlight = isDark
         ? const Color(0xFF334155)
         : const Color(0xFFF3F4F6);
@@ -1236,7 +1236,7 @@ class _BottomBarShimmer extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     final isDark = Theme.of(context).brightness == Brightness.dark;
-    final base = isDark ? const Color(0xFF1E293B) : const Color(0xFFE5E7EB);
+    final base = isDark ? AppColors.darkCardColor : const Color(0xFFE5E7EB);
     final hl = isDark ? const Color(0xFF334155) : const Color(0xFFF3F4F6);
 
     return SafeArea(

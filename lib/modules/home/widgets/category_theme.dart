@@ -19,8 +19,8 @@ class CategoryConfig {
     CategoryTheme(
       name: 'All',
       icon: Icons.shopping_basket,
-      primaryColor: Color(0xFF8A038C),
-      backgroundColor: Color(0xFFF3E5F5), // Light purple tint
+      primaryColor: Color(0xFFFCE18F), // Gold
+      backgroundColor: Color(0xFFFEF5D9), // Light gold tint
     ),
     CategoryTheme(
       name: 'Fresh',
@@ -31,8 +31,8 @@ class CategoryConfig {
     CategoryTheme(
       name: 'Electronics',
       icon: Icons.headphones,
-      primaryColor: Color(0xFF8A038C),
-      backgroundColor: Color(0xFFF3E5F5), // Light purple tint
+      primaryColor: Color(0xFFFCE18F), // Gold
+      backgroundColor: Color(0xFFFEF5D9), // Light gold tint
     ),
     CategoryTheme(
       name: '50% Off',
@@ -49,8 +49,8 @@ class CategoryConfig {
     CategoryTheme(
       name: 'Kids',
       icon: Icons.toys,
-      primaryColor: Color(0xFF8A038C),
-      backgroundColor: Color(0xFFF3E5F5), // Light purple tint
+      primaryColor: Color(0xFFFCE18F), // Gold
+      backgroundColor: Color(0xFFFEF5D9), // Light gold tint
     ),
     CategoryTheme(
       name: 'Wedding',
@@ -61,20 +61,20 @@ class CategoryConfig {
     CategoryTheme(
       name: 'Home',
       icon: Icons.light,
-      primaryColor: Color(0xFF8A038C),
-      backgroundColor: Color(0xFFF3E5F5), // Light purple tint
+      primaryColor: Color(0xFFFCE18F), // Gold
+      backgroundColor: Color(0xFFFEF5D9), // Light gold tint
     ),
     CategoryTheme(
       name: 'Beauty',
       icon: Icons.face,
-      primaryColor: Color(0xFF8A038C),
-      backgroundColor: Color(0xFFF3E5F5), // Light purple tint
+      primaryColor: Color(0xFFFCE18F), // Gold
+      backgroundColor: Color(0xFFFEF5D9), // Light gold tint
     ),
     CategoryTheme(
       name: 'Fashion',
       icon: Icons.checkroom,
-      primaryColor: Color(0xFF8A038C),
-      backgroundColor: Color(0xFFF3E5F5), // Light purple tint
+      primaryColor: Color(0xFFFCE18F), // Gold
+      backgroundColor: Color(0xFFFEF5D9), // Light gold tint
     ),
     CategoryTheme(
       name: 'Grocery',

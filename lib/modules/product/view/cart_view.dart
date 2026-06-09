@@ -91,339 +91,391 @@ class CartView extends StatelessWidget {
 
           return RefreshIndicator(
             onRefresh: controller.loadCart,
-            child: ListView.builder(
+            child: SingleChildScrollView(
               physics: const AlwaysScrollableScrollPhysics(),
-              padding: const EdgeInsets.fromLTRB(12, 12, 12, 120),
-              itemCount: controller.items.length,
-              itemBuilder: (context, index) {
-                return Obx(() {
-                  final it = controller.items[index];
-                  final unavailable = (it.isAvailable ?? 1) == 2;
-                  final selected = controller.isSelectedId(it.id);
-                  final showChecked = unavailable ? true : selected;
-
-                  final attachmentLabel = _cartAttachmentLabel(it.attachment);
-                  final attachmentPath = _extractAttachmentPath(it.attachment);
-
-                  final card = Container(
-                    margin: EdgeInsets.only(bottom: unavailable ? 0 : 10),
-                    padding: const EdgeInsets.all(10),
+              padding: const EdgeInsets.only(bottom: 120),
+              child: Column(
+                crossAxisAlignment: CrossAxisAlignment.stretch,
+                children: [
+                  // Delivery Address Card
+                  Container(
+                    margin: const EdgeInsets.fromLTRB(12, 12, 12, 0),
+                    padding: const EdgeInsets.all(16),
                     decoration: BoxDecoration(
-                      color: isDark
-                          ? AppColors.darkCardColor
-                          : AppColors.lightCardColor,
-                      borderRadius: BorderRadius.circular(12),
+                      color: isDark ? AppColors.darkCardColor : AppColors.whiteColor,
+                      borderRadius: BorderRadius.circular(16),
+                      boxShadow: [
+                        if (!isDark)
+                          BoxShadow(
+                            color: Colors.black.withValues(alpha: 0.03),
+                            blurRadius: 10,
+                            offset: const Offset(0, 4),
+                          ),
+                      ],
                     ),
                     child: Row(
-                      crossAxisAlignment: CrossAxisAlignment.center,
                       children: [
-                        IgnorePointer(
-                          ignoring: unavailable,
-                          child: InkWell(
-                            onTap: () => controller.toggleItemSelection(it.id),
-                            customBorder: const CircleBorder(),
-                            child: Padding(
-                              padding: const EdgeInsets.only(top: 4, right: 6),
-                              child: Icon(
-                                showChecked
-                                    ? Icons.check_box_rounded
-                                    : Icons.check_box_outline_blank,
-                                size: 20,
-                                color: unavailable
-                                    ? (isDark
-                                          ? Colors.white24
-                                          : const Color(0xFFCBD5E1))
-                                    : (showChecked
-                                          ? AppColors.primaryColor
-                                          : (isDark
-                                                ? Colors.white54
-                                                : const Color(0xFF9CA3AF))),
-                              ),
-                            ),
+                        Container(
+                          padding: const EdgeInsets.all(10),
+                          decoration: BoxDecoration(
+                            color: AppColors.primaryColor.withValues(alpha: 0.1),
+                            borderRadius: BorderRadius.circular(12),
                           ),
+                          child: const Icon(Iconsax.location_copy, color: AppColors.primaryColor),
                         ),
-                        GestureDetector(
-                          onTap: () => _openDetails(it),
-                          child: ClipRRect(
-                            borderRadius: BorderRadius.circular(6),
-                            child: CachedNetworkImage(
-                              imageUrl: it.imageUrl,
-                              width: 56,
-                              height: 68,
-                              fit: BoxFit.cover,
-                              errorWidget: (_, __, ___) => Container(
-                                width: 56,
-                                height: 68,
-                                alignment: Alignment.center,
-                                color: Colors.black12,
-                                child: const Icon(
-                                  Iconsax.gallery_remove_copy,
-                                  size: 20,
-                                ),
-                              ),
-                            ),
-                          ),
-                        ),
-                        const SizedBox(width: 10),
-                        Expanded(
+                        const SizedBox(width: 12),
+                        const Expanded(
                           child: Column(
                             crossAxisAlignment: CrossAxisAlignment.start,
                             children: [
-                              Row(
-                                mainAxisAlignment:
-                                    MainAxisAlignment.spaceBetween,
-                                children: [
-                                  Flexible(
-                                    child: GestureDetector(
-                                      onTap: () => _openDetails(it),
-                                      child: Text(
-                                        it.name,
-                                        maxLines: 1,
-                                        overflow: TextOverflow.ellipsis,
-                                        style: const TextStyle(
-                                          fontWeight: FontWeight.w700,
-                                        ),
-                                      ),
+                              Text('Delivery in 10 mins', style: TextStyle(fontWeight: FontWeight.bold, fontSize: 16)),
+                              SizedBox(height: 4),
+                              Text('53/103-104, Coimbatore, Tamil Nadu', style: TextStyle(fontSize: 13, color: AppColors.greyColor), maxLines: 1, overflow: TextOverflow.ellipsis),
+                            ],
+                          ),
+                        ),
+                        const SizedBox(width: 8),
+                        Text('Change'.tr, style: const TextStyle(color: AppColors.primaryColor, fontWeight: FontWeight.bold, fontSize: 13)),
+                      ],
+                    ),
+                  ),
+                  const SizedBox(height: 16),
+                  
+                  // Items List
+                  ListView.builder(
+                    shrinkWrap: true,
+                    physics: const NeverScrollableScrollPhysics(),
+                    padding: const EdgeInsets.symmetric(horizontal: 12),
+                    itemCount: controller.items.length,
+                    itemBuilder: (context, index) {
+                      return Obx(() {
+                        final it = controller.items[index];
+                        final unavailable = (it.isAvailable ?? 1) == 2;
+                        final selected = controller.isSelectedId(it.id);
+                        final showChecked = unavailable ? true : selected;
+
+                        final attachmentLabel = _cartAttachmentLabel(it.attachment);
+                        final attachmentPath = _extractAttachmentPath(it.attachment);
+
+                        final card = Container(
+                          margin: EdgeInsets.only(bottom: unavailable ? 0 : 12),
+                          padding: const EdgeInsets.all(12),
+                          decoration: BoxDecoration(
+                            color: isDark ? AppColors.darkCardColor : AppColors.whiteColor,
+                            borderRadius: BorderRadius.circular(16),
+                            boxShadow: [
+                              if (!isDark)
+                                BoxShadow(
+                                  color: Colors.black.withValues(alpha: 0.02),
+                                  blurRadius: 8,
+                                  offset: const Offset(0, 2),
+                                ),
+                            ],
+                          ),
+                          child: Row(
+                            crossAxisAlignment: CrossAxisAlignment.center,
+                            children: [
+                              IgnorePointer(
+                                ignoring: unavailable,
+                                child: InkWell(
+                                  onTap: () => controller.toggleItemSelection(it.id),
+                                  customBorder: const CircleBorder(),
+                                  child: Padding(
+                                    padding: const EdgeInsets.only(top: 4, right: 8),
+                                    child: Icon(
+                                      showChecked
+                                          ? Icons.check_circle_rounded
+                                          : Icons.circle_outlined,
+                                      size: 22,
+                                      color: unavailable
+                                          ? (isDark ? Colors.white24 : const Color(0xFFCBD5E1))
+                                          : (showChecked
+                                                ? AppColors.primaryColor
+                                                : (isDark ? Colors.white54 : const Color(0xFF9CA3AF))),
                                     ),
-                                  ),
-                                  InkWell(
-                                    onTap: () => controller.removeAt(index),
-                                    customBorder: const CircleBorder(),
-                                    child: const Padding(
-                                      padding: EdgeInsets.all(4),
-                                      child: Icon(Iconsax.trash_copy, size: 18),
-                                    ),
-                                  ),
-                                ],
-                              ),
-                              if (controller.variantLine(it).isNotEmpty)
-                                Text(
-                                  controller.variantLine(it),
-                                  style: TextStyle(
-                                    fontSize: 12,
-                                    color: isDark
-                                        ? Colors.white70
-                                        : const Color(0xFF6B7280),
                                   ),
                                 ),
-                              Row(
-                                crossAxisAlignment: CrossAxisAlignment.start,
-                                children: [
-                                  Expanded(
-                                    child: Column(
-                                      crossAxisAlignment:
-                                          CrossAxisAlignment.start,
+                              ),
+                              GestureDetector(
+                                onTap: () => _openDetails(it),
+                                child: ClipRRect(
+                                  borderRadius: BorderRadius.circular(10),
+                                  child: CachedNetworkImage(
+                                    imageUrl: it.imageUrl,
+                                    width: 64,
+                                    height: 64,
+                                    fit: BoxFit.cover,
+                                    errorWidget: (_, __, ___) => Container(
+                                      width: 64,
+                                      height: 64,
+                                      alignment: Alignment.center,
+                                      color: Colors.black12,
+                                      child: const Icon(Iconsax.gallery_remove_copy, size: 20),
+                                    ),
+                                  ),
+                                ),
+                              ),
+                              const SizedBox(width: 12),
+                              Expanded(
+                                child: Column(
+                                  crossAxisAlignment: CrossAxisAlignment.start,
+                                  children: [
+                                    Row(
+                                      mainAxisAlignment: MainAxisAlignment.spaceBetween,
                                       children: [
-                                        FittedBox(
-                                          fit: BoxFit.scaleDown,
-                                          child: Row(
-                                            children: [
-                                              Text(
-                                                controller.money(
-                                                  it.unitPriceNum,
-                                                ),
-                                                style: TextStyle(
-                                                  fontSize: 12,
-                                                  color: isDark
-                                                      ? Colors.white70
-                                                      : const Color(0xFF6B7280),
-                                                  fontWeight: FontWeight.w600,
-                                                ),
-                                              ),
-                                              Text(
-                                                '  |  ',
-                                                style: TextStyle(
-                                                  fontSize: 12,
-                                                  color: isDark
-                                                      ? Colors.white70
-                                                      : const Color(0xFF6B7280),
-                                                ),
-                                              ),
-                                              Text(
-                                                controller.money(it.lineTotal),
-                                                style: const TextStyle(
-                                                  fontSize: 12,
-                                                  fontWeight: FontWeight.w800,
-                                                  color: AppColors.primaryColor,
-                                                ),
-                                              ),
-                                            ],
+                                        Flexible(
+                                          child: GestureDetector(
+                                            onTap: () => _openDetails(it),
+                                            child: Text(
+                                              it.name,
+                                              maxLines: 1,
+                                              overflow: TextOverflow.ellipsis,
+                                              style: const TextStyle(fontWeight: FontWeight.w700, fontSize: 14),
+                                            ),
                                           ),
                                         ),
-
-                                        if (attachmentLabel != null)
-                                          Padding(
-                                            padding: const EdgeInsets.only(
-                                              top: 4.0,
-                                            ),
-                                            child: InkWell(
-                                              onTap: () => _openAttachment(
-                                                context,
-                                                attachmentPath,
+                                        InkWell(
+                                          onTap: () => controller.removeAt(index),
+                                          customBorder: const CircleBorder(),
+                                          child: const Padding(
+                                            padding: EdgeInsets.all(4),
+                                            child: Icon(Iconsax.trash_copy, size: 18, color: Colors.redAccent),
+                                          ),
+                                        ),
+                                      ],
+                                    ),
+                                    if (controller.variantLine(it).isNotEmpty) ...[
+                                      const SizedBox(height: 2),
+                                      Text(
+                                        controller.variantLine(it),
+                                        style: TextStyle(fontSize: 12, color: isDark ? Colors.white70 : const Color(0xFF6B7280)),
+                                      ),
+                                    ],
+                                    const SizedBox(height: 8),
+                                    Row(
+                                      crossAxisAlignment: CrossAxisAlignment.end,
+                                      mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                                      children: [
+                                        Column(
+                                          crossAxisAlignment: CrossAxisAlignment.start,
+                                          children: [
+                                            if (it.oldPrice != null && (double.tryParse(it.oldPrice!.toString()) ?? 0.0) > it.unitPriceNum)
+                                              Text(
+                                                controller.money(double.tryParse(it.oldPrice!.toString()) ?? 0.0),
+                                                style: const TextStyle(
+                                                  fontSize: 11,
+                                                  decoration: TextDecoration.lineThrough,
+                                                  color: Colors.grey,
+                                                ),
                                               ),
-                                              child: Column(
+                                            Text(
+                                              controller.money(it.lineTotal),
+                                              style: const TextStyle(
+                                                fontSize: 15,
+                                                fontWeight: FontWeight.w800,
+                                              ),
+                                            ),
+                                          ],
+                                        ),
+                                        IgnorePointer(
+                                          ignoring: unavailable,
+                                          child: AnimatedSwitcher(
+                                            duration: const Duration(milliseconds: 200),
+                                            child: Container(
+                                              key: ValueKey(controller.items[index].quantity),
+                                              height: 32,
+                                              decoration: BoxDecoration(
+                                                color: isDark ? AppColors.darkBackgroundColor : AppColors.primaryColor.withValues(alpha: 0.1),
+                                                borderRadius: BorderRadius.circular(8),
+                                                border: isDark ? Border.all(color: Colors.white12) : null,
+                                              ),
+                                              child: Row(
+                                                mainAxisSize: MainAxisSize.min,
                                                 children: [
-                                                  Row(
-                                                    children: [
-                                                      Padding(
-                                                        padding:
-                                                            const EdgeInsets.only(
-                                                              top: 3,
-                                                            ),
-                                                        child: Icon(
-                                                          Iconsax.document_copy,
-                                                          size: 14,
-                                                          color: isDark
-                                                              ? Colors.white70
-                                                              : const Color(
-                                                                  0xFF6B7280,
-                                                                ),
-                                                        ),
-                                                      ),
-                                                      const SizedBox(width: 4),
-                                                      Flexible(
-                                                        child: Text(
-                                                          attachmentLabel,
-                                                          maxLines: 1,
-                                                          overflow: TextOverflow
-                                                              .ellipsis,
-                                                          style: const TextStyle(
-                                                            fontSize: 13,
-                                                            color: AppColors
-                                                                .primaryColor,
-                                                          ),
-                                                        ),
-                                                      ),
-                                                      const SizedBox(width: 6),
-                                                      GestureDetector(
-                                                        onTap: () =>
-                                                            _changeCartItemAttachment(
-                                                              context,
-                                                              controller,
-                                                              it,
-                                                            ),
-                                                        child: Text(
-                                                          'Change'.tr,
-                                                          style: const TextStyle(
-                                                            fontSize: 11,
-                                                            fontWeight:
-                                                                FontWeight.w600,
-                                                            color: AppColors
-                                                                .primaryColor,
-                                                          ),
-                                                        ),
-                                                      ),
-                                                    ],
+                                                  InkWell(
+                                                    onTap: () => controller.dec(index),
+                                                    child: const Padding(
+                                                      padding: EdgeInsets.symmetric(horizontal: 10),
+                                                      child: Icon(Iconsax.minus_copy, size: 16, color: AppColors.primaryColor),
+                                                    ),
+                                                  ),
+                                                  Text(
+                                                    '${controller.items[index].quantity}',
+                                                    style: const TextStyle(fontSize: 14, fontWeight: FontWeight.bold, color: AppColors.primaryColor),
+                                                  ),
+                                                  InkWell(
+                                                    onTap: () => controller.inc(index),
+                                                    child: const Padding(
+                                                      padding: EdgeInsets.symmetric(horizontal: 10),
+                                                      child: Icon(Iconsax.add_copy, size: 16, color: AppColors.primaryColor),
+                                                    ),
                                                   ),
                                                 ],
                                               ),
                                             ),
                                           ),
+                                        ),
                                       ],
                                     ),
-                                  ),
-                                  const SizedBox(width: 10),
-                                  IgnorePointer(
-                                    ignoring: unavailable,
-                                    child: SizedBox(
-                                      width: 78,
-                                      child: Row(
-                                        mainAxisAlignment:
-                                            MainAxisAlignment.spaceBetween,
-                                        children: [
-                                          _QtyButton(
-                                            icon: Iconsax.minus_copy,
-                                            onTap: () => controller.dec(index),
-                                            disabled: unavailable,
-                                          ),
-                                          Container(
-                                            width: 24,
-                                            height: 24,
-                                            alignment: Alignment.center,
-                                            decoration: BoxDecoration(
-                                              color: isDark
-                                                  ? const Color(0xFF0B1220)
-                                                  : Colors.white,
-                                              borderRadius:
-                                                  BorderRadius.circular(8),
-                                              border: Border.all(
-                                                color: isDark
-                                                    ? Colors.white.withValues(
-                                                        alpha: 0.10,
-                                                      )
-                                                    : const Color(0xFFE5E7EB),
+                                    if (attachmentLabel != null) ...[
+                                      const SizedBox(height: 8),
+                                      InkWell(
+                                        onTap: () => _openAttachment(context, attachmentPath),
+                                        child: Row(
+                                          children: [
+                                            const Icon(Iconsax.document_copy, size: 14, color: AppColors.primaryColor),
+                                            const SizedBox(width: 4),
+                                            Flexible(
+                                              child: Text(
+                                                attachmentLabel,
+                                                maxLines: 1,
+                                                overflow: TextOverflow.ellipsis,
+                                                style: const TextStyle(fontSize: 12, color: AppColors.primaryColor),
                                               ),
                                             ),
-                                            child: Text(
-                                              '${controller.items[index].quantity}',
-                                              style: const TextStyle(
-                                                fontSize: 12,
-                                              ),
-                                            ),
-                                          ),
-                                          _QtyButton(
-                                            icon: Iconsax.add_copy,
-                                            onTap: () => controller.inc(index),
-                                            disabled: unavailable,
-                                          ),
-                                        ],
+                                          ],
+                                        ),
                                       ),
-                                    ),
-                                  ),
-                                ],
+                                    ],
+                                  ],
+                                ),
                               ),
                             ],
                           ),
-                        ),
+                        );
+
+                        return Stack(
+                          clipBehavior: Clip.none,
+                          children: [
+                            card,
+                            if (unavailable)
+                              Positioned(
+                                top: 4,
+                                left: 4,
+                                child: Container(
+                                  padding: const EdgeInsets.symmetric(horizontal: 10, vertical: 4),
+                                  decoration: BoxDecoration(
+                                    color: const Color(0xFFFFE4E6),
+                                    borderRadius: BorderRadius.circular(8),
+                                  ),
+                                  child: Text(
+                                    'Not available'.tr,
+                                    style: const TextStyle(color: Color(0xFFB71C1C), fontSize: 10, fontWeight: FontWeight.bold),
+                                  ),
+                                ),
+                              ),
+                            if (unavailable)
+                              Positioned.fill(
+                                child: IgnorePointer(
+                                  child: Container(
+                                    decoration: BoxDecoration(
+                                      color: Colors.white.withValues(alpha: 0.6),
+                                      borderRadius: BorderRadius.circular(16),
+                                    ),
+                                  ),
+                                ),
+                              ),
+                          ],
+                        );
+                      });
+                    },
+                  ),
+                  
+                  // Coupon Section
+                  Container(
+                    margin: const EdgeInsets.symmetric(horizontal: 12, vertical: 8),
+                    padding: const EdgeInsets.all(16),
+                    decoration: BoxDecoration(
+                      color: isDark ? AppColors.darkCardColor : AppColors.whiteColor,
+                      borderRadius: BorderRadius.circular(16),
+                      boxShadow: [
+                        if (!isDark)
+                          BoxShadow(
+                            color: Colors.black.withValues(alpha: 0.03),
+                            blurRadius: 10,
+                            offset: const Offset(0, 4),
+                          ),
                       ],
                     ),
-                  );
-
-                  return Stack(
-                    clipBehavior: Clip.none,
-                    children: [
-                      card,
-                      if (unavailable)
-                        Positioned(
-                          top: 2,
-                          left: 2,
-                          child: Container(
-                            padding: const EdgeInsets.symmetric(
-                              horizontal: 10,
-                              vertical: 4,
-                            ),
-                            decoration: BoxDecoration(
-                              color: const Color(0xFFFFE4E6),
-                              borderRadius: BorderRadius.circular(8),
-                              border: Border.all(
-                                color: const Color(0xFFFFCDD2),
-                              ),
-                            ),
-                            child: Text(
-                              'Not available'.tr,
-                              style: const TextStyle(
-                                color: Color(0xFFB71C1C),
-                                fontSize: 11,
-                                fontWeight: FontWeight.w700,
-                              ),
-                            ),
+                    child: Row(
+                      children: [
+                        const Icon(Iconsax.ticket_copy, color: AppColors.primaryColor),
+                        const SizedBox(width: 12),
+                        Expanded(
+                          child: Column(
+                            crossAxisAlignment: CrossAxisAlignment.start,
+                            children: [
+                              const Text('Apply Coupon', style: TextStyle(fontWeight: FontWeight.bold, fontSize: 14)),
+                              const SizedBox(height: 2),
+                              Text('Save more on your order', style: TextStyle(fontSize: 12, color: AppColors.greyColor)),
+                            ],
                           ),
                         ),
-                      if (unavailable)
-                        Positioned.fill(
-                          child: IgnorePointer(
-                            child: Container(
-                              decoration: BoxDecoration(
-                                color: Colors.white.withValues(alpha: 0.58),
-                                borderRadius: BorderRadius.circular(12),
-                              ),
-                            ),
+                        const Icon(Icons.arrow_forward_ios, size: 14, color: AppColors.greyColor),
+                      ],
+                    ),
+                  ),
+                  
+                  // Bill Details
+                  Container(
+                    margin: const EdgeInsets.symmetric(horizontal: 12, vertical: 8),
+                    padding: const EdgeInsets.all(16),
+                    decoration: BoxDecoration(
+                      color: isDark ? AppColors.darkCardColor : AppColors.whiteColor,
+                      borderRadius: BorderRadius.circular(16),
+                      boxShadow: [
+                        if (!isDark)
+                          BoxShadow(
+                            color: Colors.black.withValues(alpha: 0.03),
+                            blurRadius: 10,
+                            offset: const Offset(0, 4),
                           ),
-                        ),
-                    ],
-                  );
-                });
-              },
+                      ],
+                    ),
+                    child: Column(
+                      crossAxisAlignment: CrossAxisAlignment.start,
+                      children: [
+                        const Text('Bill Details', style: TextStyle(fontWeight: FontWeight.bold, fontSize: 16)),
+                        const SizedBox(height: 16),
+                        Obx(() {
+                          final total = controller.grandTotal;
+                          final itemCount = controller.selectedCount;
+                          return Column(
+                            children: [
+                              Row(
+                                mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                                children: [
+                                  Text('Item Total ($itemCount items)', style: const TextStyle(fontSize: 13)),
+                                  Text(controller.money(total), style: const TextStyle(fontSize: 13, fontWeight: FontWeight.w600)),
+                                ],
+                              ),
+                              const SizedBox(height: 8),
+                              const Row(
+                                mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                                children: [
+                                  Text('Delivery Fee', style: TextStyle(fontSize: 13)),
+                                  Text('FREE', style: TextStyle(fontSize: 13, fontWeight: FontWeight.bold, color: AppColors.primaryColor)),
+                                ],
+                              ),
+                              const Padding(
+                                padding: EdgeInsets.symmetric(vertical: 12),
+                                child: Divider(height: 1),
+                              ),
+                              Row(
+                                mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                                children: [
+                                  const Text('Grand Total', style: TextStyle(fontSize: 15, fontWeight: FontWeight.bold)),
+                                  Text(controller.money(total), style: const TextStyle(fontSize: 15, fontWeight: FontWeight.w800)),
+                                ],
+                              ),
+                            ],
+                          );
+                        }),
+                      ],
+                    ),
+                  ),
+                ],
+              ),
             ),
           );
         }),
@@ -434,145 +486,104 @@ class CartView extends StatelessWidget {
           return SafeArea(
             top: false,
             child: Container(
-              height: 72,
-              padding: const EdgeInsets.symmetric(horizontal: 12, vertical: 10),
+              padding: const EdgeInsets.symmetric(horizontal: 16, vertical: 12),
               decoration: BoxDecoration(
-                color: isDark
-                    ? AppColors.darkCardColor
-                    : AppColors.lightCardColor,
+                color: isDark ? AppColors.darkCardColor : AppColors.whiteColor,
+                borderRadius: const BorderRadius.vertical(top: Radius.circular(20)),
+                boxShadow: [
+                  if (!isDark)
+                    BoxShadow(
+                      color: Colors.black.withValues(alpha: 0.05),
+                      blurRadius: 10,
+                      offset: const Offset(0, -4),
+                    ),
+                ],
               ),
               child: Row(
-                mainAxisAlignment: MainAxisAlignment.spaceBetween,
                 children: [
-                  InkWell(
-                    onTap: () =>
-                        controller.toggleSelectAll(!controller.allSelected),
-                    borderRadius: BorderRadius.circular(8),
-                    child: Row(
+                  Expanded(
+                    child: Column(
+                      mainAxisSize: MainAxisSize.min,
+                      crossAxisAlignment: CrossAxisAlignment.start,
                       children: [
-                        Icon(
-                          controller.allSelected
-                              ? Icons.check_box_rounded
-                              : Icons.check_box_outline_blank,
-                          size: 22,
-                          color: controller.allSelected
-                              ? AppColors.primaryColor
-                              : (isDark
-                                    ? Colors.white70
-                                    : const Color(0xFF6B7280)),
+                        Text(
+                          controller.money(controller.grandTotal),
+                          style: const TextStyle(fontSize: 18, fontWeight: FontWeight.w800),
                         ),
-                        const SizedBox(width: 6),
-                        Text('All'.tr),
-                      ],
-                    ),
-                  ),
-                  const SizedBox(width: 12),
-                  Row(
-                    children: [
-                      Obx(() {
-                        final open = controller.isSummaryOpen.value;
-                        return IconButton(
-                          padding: EdgeInsets.zero,
-                          onPressed: () async {
-                            if (open) {
+                        const SizedBox(height: 2),
+                        GestureDetector(
+                          onTap: () {
+                            // Show summary
+                            if (controller.isSummaryOpen.value) {
                               controller.bottomSheetController?.close();
                               controller.bottomSheetController = null;
                               controller.closeSummary();
                             } else {
                               controller.openSummary();
-                              controller.bottomSheetController = _scaffoldKey
-                                  .currentState!
-                                  .showBottomSheet(
-                                    (ctx) =>
-                                        _BottomSummarySheet(isDark: isDark),
-                                    backgroundColor: isDark
-                                        ? AppColors.darkCardColor
-                                        : Colors.white,
-                                    shape: const RoundedRectangleBorder(
-                                      borderRadius: BorderRadius.vertical(
-                                        top: Radius.circular(16),
-                                      ),
-                                    ),
-                                  );
-                              controller.bottomSheetController!.closed
-                                  .whenComplete(() {
-                                    controller.bottomSheetController = null;
-                                    controller.closeSummary();
-                                  });
+                              controller.bottomSheetController = _scaffoldKey.currentState!.showBottomSheet(
+                                (ctx) => _BottomSummarySheet(isDark: isDark),
+                                backgroundColor: isDark ? AppColors.darkCardColor : Colors.white,
+                                shape: const RoundedRectangleBorder(borderRadius: BorderRadius.vertical(top: Radius.circular(16))),
+                              );
+                              controller.bottomSheetController!.closed.whenComplete(() {
+                                controller.bottomSheetController = null;
+                                controller.closeSummary();
+                              });
                             }
                           },
-                          icon: Icon(
-                            controller.isSummaryOpen.value
-                                ? Iconsax.arrow_down_1_copy
-                                : Iconsax.arrow_up_2_copy,
-                            size: 18,
-                            color: open
-                                ? AppColors.primaryColor
-                                : (isDark
-                                      ? Colors.white70
-                                      : const Color(0xFF6B7280)),
-                          ),
-                          tooltip: open ? 'Hide summary' : 'Show summary',
-                        );
-                      }),
-                      Text(
-                        controller.money(controller.grandTotal),
-                        textAlign: TextAlign.right,
-                        style: const TextStyle(
-                          fontSize: 18,
-                          fontWeight: FontWeight.w800,
-                        ),
-                      ),
-                      const SizedBox(width: 12),
-                      SizedBox(
-                        height: double.infinity,
-                        child: ElevatedButton(
-                          style: ElevatedButton.styleFrom(
-                            backgroundColor: disabled
-                                ? Colors.grey
-                                : AppColors.primaryColor,
-                            foregroundColor: Colors.white,
-                            shape: RoundedRectangleBorder(
-                              borderRadius: BorderRadius.circular(12),
-                            ),
-                            padding: const EdgeInsets.symmetric(horizontal: 18),
-                          ),
-                          onPressed: disabled
-                              ? null
-                              : () {
-                                  final loginService = LoginService();
-                                  final selected = controller.selectedCartItems;
-                                  if (selected.isEmpty) {
-                                    Get.snackbar(
-                                      'Checkout'.tr,
-                                      'Please select at least one item'.tr,
-                                      snackPosition: SnackPosition.TOP,
-                                      backgroundColor: AppColors.primaryColor,
-                                      colorText: AppColors.whiteColor,
-                                    );
-                                    return;
-                                  }
-                                  if (loginService.isLoggedIn()) {
-                                    Get.toNamed(
-                                      AppRoutes.checkoutView,
-                                      arguments: {'items': selected},
-                                    );
-                                    return;
-                                  } else {
-                                    Get.toNamed(
-                                      AppRoutes.guestCheckoutView,
-                                      arguments: {'items': selected},
-                                    );
-                                    return;
-                                  }
-                                },
-                          child: Text(
-                            'Check Out'.tr,
-                            style: const TextStyle(fontWeight: FontWeight.w700),
+                          child: Row(
+                            children: [
+                              Text('View Bill'.tr, style: const TextStyle(fontSize: 12, color: AppColors.primaryColor, fontWeight: FontWeight.bold)),
+                              const Icon(Icons.arrow_drop_up, size: 16, color: AppColors.primaryColor),
+                            ],
                           ),
                         ),
+                      ],
+                    ),
+                  ),
+                  SizedBox(
+                    height: 48,
+                    width: 160,
+                    child: ElevatedButton(
+                      style: ElevatedButton.styleFrom(
+                        backgroundColor: disabled ? Colors.grey : AppColors.primaryColor,
+                        foregroundColor: Colors.white,
+                        shape: RoundedRectangleBorder(borderRadius: BorderRadius.circular(14)),
                       ),
-                    ],
+                      onPressed: disabled
+                          ? null
+                          : () {
+                              final loginService = LoginService();
+                              final selected = controller.selectedCartItems;
+                              if (selected.isEmpty) {
+                                Get.snackbar(
+                                  'Checkout'.tr,
+                                  'Please select at least one item'.tr,
+                                  snackPosition: SnackPosition.TOP,
+                                  backgroundColor: AppColors.primaryColor,
+                                  colorText: AppColors.whiteColor,
+                                );
+                                return;
+                              }
+                              if (loginService.isLoggedIn()) {
+                                Get.toNamed(
+                                  AppRoutes.checkoutView,
+                                  arguments: {'items': selected},
+                                );
+                                return;
+                              } else {
+                                Get.toNamed(
+                                  AppRoutes.guestCheckoutView,
+                                  arguments: {'items': selected},
+                                );
+                                return;
+                              }
+                            },
+                      child: Text(
+                        'Check Out >'.tr,
+                        style: const TextStyle(fontWeight: FontWeight.w700),
+                      ),
+                    ),
                   ),
                 ],
               ),

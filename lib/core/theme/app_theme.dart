@@ -35,16 +35,18 @@ class AppTheme {
       ),
       scaffoldBackgroundColor: AppColors.lightBackgroundColor,
       appBarTheme: const AppBarTheme(
-        backgroundColor: AppColors.primaryColor,
-        foregroundColor: AppColors.whiteColor,
+        backgroundColor: AppColors.whiteColor,
+        foregroundColor: AppColors.blackColor,
+        iconTheme: IconThemeData(color: AppColors.primaryColor),
         scrolledUnderElevation: 0,
         surfaceTintColor: AppColors.transparentColor,
         shadowColor: AppColors.transparentColor,
         centerTitle: true,
       ),
       bottomNavigationBarTheme: const BottomNavigationBarThemeData(
-        backgroundColor: AppColors.lightBottomNavBarColor,
+        backgroundColor: AppColors.whiteColor,
         selectedItemColor: AppColors.primaryColor,
+        unselectedItemColor: AppColors.textSecondaryColor,
       ),
       switchTheme: SwitchThemeData(
         thumbColor: WidgetStateProperty.all(AppColors.primaryColor),
@@ -99,26 +101,28 @@ class AppTheme {
     final family = _fontFor(locale);
     return ThemeData(
       useMaterial3: true,
-      brightness: Brightness.dark,
+      brightness: Brightness.light,
       colorScheme: ColorScheme.fromSeed(
         primary: AppColors.primaryColor,
         secondary: AppColors.secondaryColor,
         tertiary: AppColors.accentColor,
         seedColor: AppColors.primaryColor,
-        brightness: Brightness.dark,
+        brightness: Brightness.light,
       ),
-      scaffoldBackgroundColor: AppColors.darkBackgroundColor,
+      scaffoldBackgroundColor: AppColors.darkBackgroundColor, // #F5F9FF
       appBarTheme: const AppBarTheme(
-        backgroundColor: AppColors.darkBackgroundColor,
-        foregroundColor: AppColors.whiteColor,
+        backgroundColor: AppColors.whiteColor,
+        foregroundColor: AppColors.blackColor,
+        iconTheme: IconThemeData(color: AppColors.primaryColor),
         scrolledUnderElevation: 0,
         surfaceTintColor: AppColors.transparentColor,
         shadowColor: AppColors.transparentColor,
         centerTitle: true,
       ),
       bottomNavigationBarTheme: const BottomNavigationBarThemeData(
-        backgroundColor: AppColors.darkBottomNavBarColor,
+        backgroundColor: AppColors.whiteColor,
         selectedItemColor: AppColors.primaryColor,
+        unselectedItemColor: AppColors.textSecondaryColor,
       ),
       switchTheme: SwitchThemeData(
         thumbColor: WidgetStateProperty.all(AppColors.primaryColor),

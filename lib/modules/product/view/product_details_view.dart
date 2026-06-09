@@ -1260,7 +1260,7 @@ class _BottomBar extends StatelessWidget {
         height: 64,
         padding: const EdgeInsets.symmetric(horizontal: 12, vertical: 8),
         decoration: BoxDecoration(
-          color: isDark ? const Color(0xFF0F172A) : Colors.white,
+          color: isDark ? AppColors.darkCardColor : Colors.white,
           boxShadow: const [
             BoxShadow(
               blurRadius: 12,
